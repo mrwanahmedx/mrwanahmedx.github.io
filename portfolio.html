@@ -1,61 +1,210 @@
-<section id="portfolio" class="portfolio section">
-  <div class="container">
+<!DOCTYPE html>
+<html lang="en">
 
-    <div class="section-title" data-aos="fade-up">
-      <h2>Portfolio</h2>
-      <p>Selected data analytics and business intelligence projects demonstrating practical problem solving and analytical thinking.</p>
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Marwan Ahmed Portfolio</title>
+  <link href="assets/css/style.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top">
+    <div class="container-fluid d-flex align-items-center justify-content-between">
+      <a href="index.html" class="logo d-flex align-items-center">
+        <span>Marwan Ahmed</span>
+      </a>
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+          <li><a class="nav-link scrollto" href="#portfolio">Portfolio</a></li>
+          <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav>
     </div>
+  </header>
 
-    <div class="row">
-
-      <!-- Project 1 -->
-      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-        <div class="portfolio-item">
-          <h3>Credit Risk Management Database</h3>
-          <p>
-            SQL-based relational database designed to simulate real banking credit risk workflows.
-          </p>
-          <ul>
-            <li>Modeled customers, loans, payments, and risk assessments</li>
-            <li>Designed normalized tables with primary and foreign keys</li>
-            <li>Used advanced SQL queries for risk analysis and reporting</li>
-          </ul>
-          <p class="tech">SQL</p>
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="hero d-flex align-items-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 d-flex flex-column justify-content-center">
+          <h1>Hi, I'm Marwan Ahmed</h1>
+          <h2>Finance Graduate & Data Analytics Enthusiast</h2>
+        </div>
+        <div class="col-lg-6 hero-img">
+          <img src="assets/img/hero-img.png" class="img-fluid" alt="Marwan Ahmed">
         </div>
       </div>
-
-      <!-- Project 2 -->
-      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-        <div class="portfolio-item">
-          <h3>iScore Credit Bureau Dashboard</h3>
-          <p>
-            Interactive Tableau dashboard visualizing credit bureau data and portfolio health indicators.
-          </p>
-          <ul>
-            <li>Built multi-page dashboards with KPIs and trend analysis</li>
-            <li>Applied filters for customer and risk segmentation</li>
-            <li>Translated credit data into actionable business insights</li>
-          </ul>
-          <p class="tech">Tableau · BI · Data Visualization</p>
-        </div>
-      </div>
-
-      <!-- Project 3 -->
-      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-        <div class="portfolio-item">
-          <h3>HR Attrition Analysis</h3>
-          <p>
-            Exploratory data analysis project identifying factors influencing employee attrition.
-          </p>
-          <ul>
-            <li>Analyzed IBM HR Analytics dataset using Python</li>
-            <li>Identified key drivers such as overtime and income level</li>
-            <li>Used visualizations and correlation analysis for insights</li>
-          </ul>
-          <p class="tech">Python · Pandas · Matplotlib</p>
-        </div>
-      </div>
-
     </div>
-  </div>
-</section>
+  </section>
+
+  <!-- ======= Portfolio Section ======= -->
+  <section id="portfolio" class="portfolio">
+    <div class="container">
+
+      <div class="section-title">
+        <h2>Portfolio</h2>
+        <p>Some of my projects in Tableau, Python, SQL, and Data Analysis</p>
+      </div>
+
+      <div class="row gy-4 isotope-container">
+
+        <!-- Project 1: iScore Dashboard -->
+        <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-finance">
+          <div class="portfolio-card">
+            <div class="portfolio-img">
+              <img src="assets/img/portfolio/iscrore-home.png" alt="iScore Dashboard" class="img-fluid">
+              <div class="portfolio-overlay">
+                <a href="assets/img/portfolio/iscrore-home.png" class="glightbox portfolio-lightbox">
+                  <i class="bi bi-plus"></i>
+                </a>
+                <a href="https://mrwanahmedx.github.io/iScore-Dashboard/" target="_blank"
+                  class="portfolio-details-link">
+                  <i class="bi bi-link"></i>
+                </a>
+              </div>
+            </div>
+            <div class="portfolio-info">
+              <h4>iScore Credit Bureau Dashboard</h4>
+              <p>Business Intelligence & Data Visualization</p>
+              <div class="portfolio-tags">
+                <span>Tableau</span>
+                <span>Finance</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 2: iScore Sales -->
+        <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-finance">
+          <div class="portfolio-card">
+            <div class="portfolio-img">
+              <img src="assets/img/portfolio/iscrore-sales.png" alt="iScore Sales Dashboard" class="img-fluid">
+              <div class="portfolio-overlay">
+                <a href="assets/img/portfolio/iscrore-sales.png" class="glightbox portfolio-lightbox">
+                  <i class="bi bi-plus"></i>
+                </a>
+                <a href="https://mrwanahmedx.github.io/iScore-Dashboard/" target="_blank"
+                  class="portfolio-details-link">
+                  <i class="bi bi-link"></i>
+                </a>
+              </div>
+            </div>
+            <div class="portfolio-info">
+              <h4>Credit Portfolio Sales Analysis</h4>
+              <p>Performance & Trend Analysis</p>
+              <div class="portfolio-tags">
+                <span>Tableau</span>
+                <span>KPIs</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 3: iScore Customers -->
+        <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-finance">
+          <div class="portfolio-card">
+            <div class="portfolio-img">
+              <img src="assets/img/portfolio/iscrore-customers.png" alt="Customer Segmentation" class="img-fluid">
+              <div class="portfolio-overlay">
+                <a href="assets/img/portfolio/iscrore-customers.png" class="glightbox portfolio-lightbox">
+                  <i class="bi bi-plus"></i>
+                </a>
+                <a href="https://mrwanahmedx.github.io/iScore-Dashboard/" target="_blank"
+                  class="portfolio-details-link">
+                  <i class="bi bi-link"></i>
+                </a>
+              </div>
+            </div>
+            <div class="portfolio-info">
+              <h4>Customer Segmentation Dashboard</h4>
+              <p>Risk & Demographic Analysis</p>
+              <div class="portfolio-tags">
+                <span>Analytics</span>
+                <span>Finance</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 4: HR Attrition -->
+        <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-technology">
+          <div class="portfolio-card">
+            <div class="portfolio-img">
+              <img src="assets/img/portfolio/hr-attrition.png" alt="HR Attrition Analysis" class="img-fluid">
+              <div class="portfolio-overlay">
+                <a href="assets/img/portfolio/hr-attrition.png" class="glightbox portfolio-lightbox">
+                  <i class="bi bi-plus"></i>
+                </a>
+                <a href="https://github.com/mrwanahmedx/HR-Attrition-Analysis-Using-Python" target="_blank"
+                  class="portfolio-details-link">
+                  <i class="bi bi-link"></i>
+                </a>
+              </div>
+            </div>
+            <div class="portfolio-info">
+              <h4>HR Attrition Analysis</h4>
+              <p>Exploratory Data Analysis</p>
+              <div class="portfolio-tags">
+                <span>Python</span>
+                <span>Pandas</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 5: SQL Credit Risk -->
+        <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-operations">
+          <div class="portfolio-card">
+            <div class="portfolio-img">
+              <img src="assets/img/portfolio/sql-credit-risk.png" alt="Credit Risk SQL Project" class="img-fluid">
+              <div class="portfolio-overlay">
+                <a href="assets/img/portfolio/sql-credit-risk.png" class="glightbox portfolio-lightbox">
+                  <i class="bi bi-plus"></i>
+                </a>
+                <a href="#" class="portfolio-details-link">
+                  <i class="bi bi-link"></i>
+                </a>
+              </div>
+            </div>
+            <div class="portfolio-info">
+              <h4>Credit Risk Management Database</h4>
+              <p>Relational Database Design</p>
+              <div class="portfolio-tags">
+                <span>SQL</span>
+                <span>Banking</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="container">
+      <div class="copyright">
+        &copy; 2026 Marwan Ahmed. All Rights Reserved
+      </div>
+    </div>
+  </footer>
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+    <i class="bi bi-arrow-up-short"></i>
+  </a>
+
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/js/main.js"></script>
+
+</body>
+</html>
