@@ -885,7 +885,13 @@ section,
   top: 0;
   left: 0;
 }
+.floating-card.design {
+  top: -20px; /* moves it up a bit */
+}
 
+.floating-card.creativity {
+  top: 40px; /* moves it down so it doesn't overlap design */
+}
 .floating-card.code {
   top: 0;
   right: 0;
