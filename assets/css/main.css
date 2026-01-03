@@ -845,124 +845,69 @@ section,
   max-width: 450px;
   margin: 0 auto;
 }
-
-.hero .hero-image .image-wrapper img {
-  border-radius: 20px;
-  box-shadow: 0 5px 15px color-mix(in srgb, var(--default-color), transparent 95%);
-  transition: transform 0.3s ease;
-}
-
-.hero .hero-image .image-wrapper img:hover {
-  transform: scale(1.02);
-}
-
+/* Floating Cards Styling for Hero Section */
 .hero .hero-image .floating-elements {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  pointer-events: none;
-}
-
-.hero-image .image-wrapper {
-  position: relative;
-  height: 300px; /* adjust this height as needed */
-}
-
-.floating-elements {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  display: flex;
+  gap: 20px; /* space between cards */
 }
 
 .floating-card {
-  position: absolute;
-}
-
-.floating-card.design {
-  top: 0;
-  left: 0;
-}
-.floating-card.design {
-  top: -20px; /* moves it up a bit */
-}
-
-.floating-card.creativity {
-  top: 40px; /* moves it down so it doesn't overlap design */
-}
-.floating-card.code {
-  top: 0;
-  right: 0;
-}
-
-.floating-card.creativity {
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.hero .hero-image .floating-elements .floating-card {
-  position: absolute;
   background: var(--surface-color);
-  padding: 15px 20px;
-  border-radius: 15px;
-  box-shadow: 0 10px 30px color-mix(in srgb, var(--default-color), transparent 90%);
+  padding: 10px 15px; /* smaller padding */
+  border-radius: 12px;
+  box-shadow: 0 10px 25px color-mix(in srgb, var(--default-color), transparent 90%);
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   font-weight: 600;
+  font-size: 0.85rem; /* smaller text */
   animation: float 3s ease-in-out infinite;
+  position: relative;
 }
 
-.hero .hero-image .floating-elements .floating-card i {
-  font-size: 1.5rem;
+/* Icons inside cards */
+.floating-card i {
+  font-size: 1.2rem;
   color: var(--accent-color);
 }
 
-.hero .hero-image .floating-elements .floating-card.design {
-  top: 10%;
-  right: -10%;
+/* Individual Card Positions */
+.floating-card.design {
+  transform: translateY(-10px);
   animation-delay: 0s;
 }
 
-.hero .hero-image .floating-elements .floating-card.code {
-  bottom: 30%;
-  left: -15%;
+.floating-card.code {
+  transform: translateY(0px);
   animation-delay: 1s;
 }
 
-.hero .hero-image .floating-elements .floating-card.creativity {
-  top: 60%;
-  right: -5%;
+.floating-card.creativity {
+  transform: translateY(10px);
   animation-delay: 2s;
 }
 
+/* Floating Animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+/* Hide on mobile */
 @media (max-width: 992px) {
-  .hero .hero-image .floating-elements .floating-card {
+  .floating-card {
     display: none;
   }
-}
-
-@keyframes float {
-
-  0%,
-  100% {
-    transform: translateY(0px);
-  }
-
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-@media (max-width: 992px) {
   .hero .hero-content {
     text-align: center;
     margin-bottom: 3rem;
   }
 }
+
 
 /*--------------------------------------------------------------
 # About Section
