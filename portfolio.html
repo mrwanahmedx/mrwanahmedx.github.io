@@ -2,209 +2,198 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Marwan Ahmed Portfolio</title>
-  <link href="assets/css/style.css" rel="stylesheet">
+  <title>Marwan Ahmed - Portfolio</title>
+  <meta name="description" content="Portfolio showcasing projects by Marwan Ahmed including Tableau dashboards and Python analysis.">
+  <meta name="keywords" content="Portfolio, Tableau, Python, Finance, HR Analysis">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="assets/css/main.css" rel="stylesheet">
+
 </head>
 
-<body>
+<body class="portfolio-page">
 
-  <!-- ======= Header ======= -->
-  <header id="header" class="header fixed-top">
-    <div class="container-fluid d-flex align-items-center justify-content-between">
-      <a href="index.html" class="logo d-flex align-items-center">
-        <span>Marwan Ahmed</span>
-      </a>
-      <nav id="navbar" class="navbar">
+  <header id="header" class="header d-flex align-items-center light-background sticky-top">
+    <div class="container position-relative d-flex align-items-center justify-content-between">
+
+      <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
-          <li><a class="nav-link scrollto" href="#portfolio">Portfolio</a></li>
-          <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="resume.html">Resume</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="portfolio.html" class="active">Portfolio</a></li>
+          <li><a href="contact.html">Contact</a></li>
         </ul>
-        <i class="bi bi-list mobile-nav-toggle"></i>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
+
+      <div class="header-social-links">
+        <a href="#" class="twitter"><i class="bi bi-twitter-x"></i></a>
+        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+        <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+      </div>
+
     </div>
   </header>
 
-  <!-- ======= Hero Section ======= -->
-  <section id="hero" class="hero d-flex align-items-center">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-6 d-flex flex-column justify-content-center">
-          <h1>Hi, I'm Marwan Ahmed</h1>
-          <h2>Finance Graduate & Data Analytics Enthusiast</h2>
-        </div>
-        <div class="col-lg-6 hero-img">
-          <img src="assets/img/hero-img.png" class="img-fluid" alt="Marwan Ahmed">
-        </div>
-      </div>
-    </div>
-  </section>
+  <main class="main">
 
-  <!-- ======= Portfolio Section ======= -->
-  <section id="portfolio" class="portfolio">
-    <div class="container">
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="portfolio section">
 
-      <div class="section-title">
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
         <h2>Portfolio</h2>
-        <p>Some of my projects in Tableau, Python, SQL, and Data Analysis</p>
-      </div>
+        <p>Explore some of the key projects I have worked on, including data dashboards, analytics, and visualization projects.</p>
+      </div><!-- End Section Title -->
 
-      <div class="row gy-4 isotope-container">
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-        <!-- Project 1: iScore Dashboard -->
-        <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-finance">
-          <div class="portfolio-card">
-            <div class="portfolio-img">
-              <img src="assets/img/portfolio/iscrore-home.png" alt="iScore Dashboard" class="img-fluid">
-              <div class="portfolio-overlay">
-                <a href="assets/img/portfolio/iscrore-home.png" class="glightbox portfolio-lightbox">
-                  <i class="bi bi-plus"></i>
-                </a>
-                <a href="https://mrwanahmedx.github.io/iScore-Dashboard/" target="_blank"
-                  class="portfolio-details-link">
-                  <i class="bi bi-link"></i>
-                </a>
+        <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
+          <ul class="portfolio-filters isotope-filters" data-aos="fade-up" data-aos-delay="200">
+            <li data-filter="*" class="filter-active">All</li>
+            <li data-filter=".filter-strategy">Strategy</li>
+            <li data-filter=".filter-finance">Finance</li>
+            <li data-filter=".filter-operations">Operations</li>
+            <li data-filter=".filter-technology">Technology</li>
+          </ul><!-- End Portfolio Filters -->
+
+          <div class="row gy-4 isotope-container" data-aos="fade-up" data-aos-delay="300">
+
+            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-finance">
+              <div class="portfolio-card">
+                <div class="portfolio-img">
+                  <img src="assets/img/portfolio/iScore-Dashboard.png" alt="iScore Dashboard" class="img-fluid">
+                  <div class="portfolio-overlay">
+                    <a href="assets/img/portfolio/iScore-Dashboard.png" class="glightbox portfolio-lightbox"><i class="bi bi-plus"></i></a>
+                    <a href="https://github.com/mrwanahmedx/iScore-Dashboard" class="portfolio-details-link"><i class="bi bi-link"></i></a>
+                  </div>
+                </div>
+                <div class="portfolio-info">
+                  <h4>iScore Dashboard</h4>
+                  <p>Credit Bureau Data Visualization</p>
+                  <div class="portfolio-tags">
+                    <span>Tableau</span>
+                    <span>Finance</span>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="portfolio-info">
-              <h4>iScore Credit Bureau Dashboard</h4>
-              <p>Business Intelligence & Data Visualization</p>
-              <div class="portfolio-tags">
-                <span>Tableau</span>
-                <span>Finance</span>
+
+            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-technology">
+              <div class="portfolio-card">
+                <div class="portfolio-img">
+                  <img src="assets/img/portfolio/HR-Attrition.png" alt="HR Attrition Analysis" class="img-fluid">
+                  <div class="portfolio-overlay">
+                    <a href="assets/img/portfolio/HR-Attrition.png" class="glightbox portfolio-lightbox"><i class="bi bi-plus"></i></a>
+                    <a href="https://github.com/mrwanahmedx/HR-Attrition-Analysis-Using-Python" class="portfolio-details-link"><i class="bi bi-link"></i></a>
+                  </div>
+                </div>
+                <div class="portfolio-info">
+                  <h4>HR Attrition Analysis</h4>
+                  <p>IBM HR Analytics Dataset</p>
+                  <div class="portfolio-tags">
+                    <span>Python</span>
+                    <span>Analytics</span>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+
+            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-finance">
+              <div class="portfolio-card">
+                <div class="portfolio-img">
+                  <img src="assets/img/portfolio/Loan-Data.png" alt="Bank Loan Dataset" class="img-fluid">
+                  <div class="portfolio-overlay">
+                    <a href="assets/img/portfolio/Loan-Data.png" class="glightbox portfolio-lightbox"><i class="bi bi-plus"></i></a>
+                    <a href="https://github.com/mrwanahmedx/Bank-Loan-Status" class="portfolio-details-link"><i class="bi bi-link"></i></a>
+                  </div>
+                </div>
+                <div class="portfolio-info">
+                  <h4>Bank Loan Dataset</h4>
+                  <p>Loan Status Prediction Analysis</p>
+                  <div class="portfolio-tags">
+                    <span>Python</span>
+                    <span>Finance</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- End Portfolio Items Container -->
+
         </div>
 
-        <!-- Project 2: iScore Sales -->
-        <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-finance">
-          <div class="portfolio-card">
-            <div class="portfolio-img">
-              <img src="assets/img/portfolio/iscrore-sales.png" alt="iScore Sales Dashboard" class="img-fluid">
-              <div class="portfolio-overlay">
-                <a href="assets/img/portfolio/iscrore-sales.png" class="glightbox portfolio-lightbox">
-                  <i class="bi bi-plus"></i>
-                </a>
-                <a href="https://mrwanahmedx.github.io/iScore-Dashboard/" target="_blank"
-                  class="portfolio-details-link">
-                  <i class="bi bi-link"></i>
-                </a>
-              </div>
-            </div>
-            <div class="portfolio-info">
-              <h4>Credit Portfolio Sales Analysis</h4>
-              <p>Performance & Trend Analysis</p>
-              <div class="portfolio-tags">
-                <span>Tableau</span>
-                <span>KPIs</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Project 3: iScore Customers -->
-        <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-finance">
-          <div class="portfolio-card">
-            <div class="portfolio-img">
-              <img src="assets/img/portfolio/iscrore-customers.png" alt="Customer Segmentation" class="img-fluid">
-              <div class="portfolio-overlay">
-                <a href="assets/img/portfolio/iscrore-customers.png" class="glightbox portfolio-lightbox">
-                  <i class="bi bi-plus"></i>
-                </a>
-                <a href="https://mrwanahmedx.github.io/iScore-Dashboard/" target="_blank"
-                  class="portfolio-details-link">
-                  <i class="bi bi-link"></i>
-                </a>
-              </div>
-            </div>
-            <div class="portfolio-info">
-              <h4>Customer Segmentation Dashboard</h4>
-              <p>Risk & Demographic Analysis</p>
-              <div class="portfolio-tags">
-                <span>Analytics</span>
-                <span>Finance</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Project 4: HR Attrition -->
-        <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-technology">
-          <div class="portfolio-card">
-            <div class="portfolio-img">
-              <img src="assets/img/portfolio/hr-attrition.png" alt="HR Attrition Analysis" class="img-fluid">
-              <div class="portfolio-overlay">
-                <a href="assets/img/portfolio/hr-attrition.png" class="glightbox portfolio-lightbox">
-                  <i class="bi bi-plus"></i>
-                </a>
-                <a href="https://github.com/mrwanahmedx/HR-Attrition-Analysis-Using-Python" target="_blank"
-                  class="portfolio-details-link">
-                  <i class="bi bi-link"></i>
-                </a>
-              </div>
-            </div>
-            <div class="portfolio-info">
-              <h4>HR Attrition Analysis</h4>
-              <p>Exploratory Data Analysis</p>
-              <div class="portfolio-tags">
-                <span>Python</span>
-                <span>Pandas</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Project 5: SQL Credit Risk -->
-        <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-operations">
-          <div class="portfolio-card">
-            <div class="portfolio-img">
-              <img src="assets/img/portfolio/sql-credit-risk.png" alt="Credit Risk SQL Project" class="img-fluid">
-              <div class="portfolio-overlay">
-                <a href="assets/img/portfolio/sql-credit-risk.png" class="glightbox portfolio-lightbox">
-                  <i class="bi bi-plus"></i>
-                </a>
-                <a href="#" class="portfolio-details-link">
-                  <i class="bi bi-link"></i>
-                </a>
-              </div>
-            </div>
-            <div class="portfolio-info">
-              <h4>Credit Risk Management Database</h4>
-              <p>Relational Database Design</p>
-              <div class="portfolio-tags">
-                <span>SQL</span>
-                <span>Banking</span>
-              </div>
-            </div>
-          </div>
+        <div class="text-center mt-5" data-aos="fade-up" data-aos-delay="400">
+          <a href="#portfolio" class="btn btn-primary">View All Case Studies</a>
         </div>
 
       </div>
-    </div>
-  </section>
 
-  <!-- ======= Footer ======= -->
+    </section><!-- /Portfolio Section -->
+
+  </main>
+
   <footer id="footer" class="footer">
+
     <div class="container">
-      <div class="copyright">
-        &copy; 2026 Marwan Ahmed. All Rights Reserved
+      <div class="copyright text-center ">
+        <p>© <span>Copyright</span> <strong class="px-1 sitename">Marwan Ahmed</strong> <span>All Rights Reserved<br></span></p>
+      </div>
+      <div class="social-links d-flex justify-content-center">
+        <a href="#"><i class="bi bi-twitter-x"></i></a>
+        <a href="#"><i class="bi bi-facebook"></i></a>
+        <a href="#"><i class="bi bi-instagram"></i></a>
+        <a href="#"><i class="bi bi-linkedin"></i></a>
+      </div>
+      <div class="credits">
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
       </div>
     </div>
+
   </footer>
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
-    <i class="bi bi-arrow-up-short"></i>
-  </a>
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/typed.js/typed.umd.js"></script>
+  <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
   <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+
+  <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
 
 </body>
+
 </html>
