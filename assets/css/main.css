@@ -865,6 +865,38 @@ section,
   pointer-events: none;
 }
 
+.hero-image .image-wrapper {
+  position: relative;
+  height: 300px; /* adjust this height as needed */
+}
+
+.floating-elements {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.floating-card {
+  position: absolute;
+}
+
+.floating-card.design {
+  top: 0;
+  left: 0;
+}
+
+.floating-card.code {
+  top: 0;
+  right: 0;
+}
+
+.floating-card.creativity {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 .hero .hero-image .floating-elements .floating-card {
   position: absolute;
   background: var(--surface-color);
