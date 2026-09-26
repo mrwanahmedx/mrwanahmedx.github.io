@@ -18,6 +18,8 @@ Interactive analytics portfolio with tested browser case studies.
 
 **Live:** https://mrwanahmedx.github.io/data-observatory/
 
+**Model-development code:** [Synthetic Risk Model Lab](https://github.com/mrwanahmedx/data-observatory/tree/main/risk-model-lab)
+
 ### [EGX Quant Research](https://github.com/mrwanahmedx/EGX-Quant-Research)
 Research-first quantitative modeling and validation for the Egyptian Exchange.
 
