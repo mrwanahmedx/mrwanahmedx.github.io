@@ -1,5 +1,7 @@
 # Marwan Ahmed — Portfolio Website
 
+> **Legacy site:** this repository remains live for historical portfolio continuity. **Data Observatory is the primary technical portfolio.**
+
 Personal GitHub Pages portfolio focused on risk analytics, credit risk, model development, model validation, SQL data engineering, and quantitative research.
 
 **Live site:** https://mrwanahmedx.github.io/
