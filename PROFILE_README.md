@@ -20,6 +20,26 @@ Interactive analytics portfolio with tested browser case studies.
 
 **Model-development code:** [Synthetic Risk Model Lab](https://github.com/mrwanahmedx/data-observatory/tree/main/risk-model-lab)
 
+### [IFRS 9 Credit Risk Modeling](https://github.com/mrwanahmedx/data-observatory/tree/main/research/ifrs9-modeling)
+Clean-room synthetic ECL research module.
+
+- reproducible synthetic exposure data,
+- explicit Stage 1 / 2 / 3 teaching logic,
+- PD / LGD / EAD building blocks,
+- probability-weighted macro scenarios and discounting,
+- grain, scenario-weight and monotonicity regression tests,
+- illustrative rules only — no employer policy or proprietary calibration.
+
+### [Credit Risk Model Validation](https://github.com/mrwanahmedx/data-observatory/tree/main/research/model-validation)
+Independent synthetic validation framework.
+
+- ROC AUC / Gini / KS and Brier score,
+- calibration intercept / slope and observed-vs-expected testing,
+- PSI and rating migration,
+- challenger comparison and override-governance audit,
+- explicit PASS / PASS WITH LIMITATIONS / REDEVELOPMENT REQUIRED outcomes,
+- transparent demo thresholds rather than hidden or employer-derived rules.
+
 ### [EGX Quant Research](https://github.com/mrwanahmedx/EGX-Quant-Research)
 Research-first quantitative modeling and validation for the Egyptian Exchange.
 
