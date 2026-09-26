@@ -11,12 +11,22 @@ class LinkParser(HTMLParser):
     def __init__(self) -> None:
         super().__init__()
         self.links: list[tuple[str, str]] = []
+        self.empty_targets: list[tuple[str, str]] = []
+        self.ids: list[str] = []
 
     def handle_starttag(self, tag: str, attrs):
         attrs = dict(attrs)
+        element_id = attrs.get("id")
+        if element_id:
+            self.ids.append(element_id)
+
         for key in ("href", "src"):
+            if key not in attrs:
+                continue
             value = attrs.get(key)
-            if value:
+            if value is None or not value.strip():
+                self.empty_targets.append((tag, key))
+            else:
                 self.links.append((key, value))
 
 def local_target(source: Path, raw: str) -> Path | None:
@@ -37,6 +47,19 @@ errors: list[str] = []
 for html in HTML_FILES:
     parser = LinkParser()
     parser.feed(html.read_text(encoding="utf-8"))
+
+    for tag, kind in parser.empty_targets:
+        errors.append(f"{html.name}: empty {kind} on <{tag}>")
+
+    seen: set[str] = set()
+    duplicates: set[str] = set()
+    for element_id in parser.ids:
+        if element_id in seen:
+            duplicates.add(element_id)
+        seen.add(element_id)
+    for element_id in sorted(duplicates):
+        errors.append(f"{html.name}: duplicate id: {element_id}")
+
     for kind, raw in parser.links:
         target = local_target(html, raw)
         if target is None:
@@ -53,4 +76,7 @@ if errors:
     print("\n".join(errors))
     raise SystemExit(1)
 
-print(f"Validated {len(HTML_FILES)} HTML files with no missing local href/src targets.")
+print(
+    f"Validated {len(HTML_FILES)} HTML files with no missing/empty local "
+    "href/src targets and no duplicate IDs."
+)
