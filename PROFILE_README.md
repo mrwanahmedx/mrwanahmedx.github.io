@@ -41,8 +41,6 @@ Relational credit-risk SQL project emphasizing engineering discipline.
 ### [iScore Credit Bureau Dashboard](https://github.com/mrwanahmedx/iScore-Dashboard)
 Tableau portfolio dashboard for credit-bureau-style reporting and portfolio segmentation.
 
-### [Suez Canal Bank Finance Dashboard](https://github.com/mrwanahmedx/Suez-Canal-Bank-Finance-Dashboard)
-Power BI project focused on selected-year financial KPIs, revenue, earnings, profitability, and balance-sheet interpretation.
 
 ### [HR Attrition Analysis](https://github.com/mrwanahmedx/HR-Attrition-Analysis-Using-Python)
 Python exploratory analysis with explicit separation between descriptive association and causal claims.
@@ -65,7 +63,7 @@ I try to keep public work explicit about what is known and what is not:
 - protect holdout samples from development decisions,
 - use transparent baselines before complex challengers,
 - document failures and blockers instead of hiding them,
-- keep employer and customer data out of public repositories,
+- keep employer and customer data, internal schemas, proprietary logic, screenshots and model parameters out of public repositories,
 - treat tests and reconciliation controls as part of the analysis.
 
 ## Education
