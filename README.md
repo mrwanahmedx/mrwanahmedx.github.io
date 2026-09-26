@@ -62,3 +62,8 @@ Public work is kept separate from employment work. No employer/customer data, in
 ## GitHub profile README staging
 
 [`PROFILE_README.md`](./PROFILE_README.md) contains the finished content intended for GitHub's special profile repository (`mrwanahmedx/mrwanahmedx`). The connected GitHub interface used for this maintenance pass cannot create repositories, so the profile copy is kept versioned here until that special repository is created.
+
+
+## Project lifecycle status
+
+See [PROJECT_STATUS.md](./PROJECT_STATUS.md) for the account-wide ACTIVE / PORTFOLIO / LEGACY / DISCONTINUED classification. Older work is retained and labeled rather than silently removed.
