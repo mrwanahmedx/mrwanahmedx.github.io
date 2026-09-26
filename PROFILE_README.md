@@ -38,9 +38,6 @@ Relational credit-risk SQL project emphasizing engineering discipline.
 - anti-fan-out controls,
 - reconciliation and executable SQLite CI.
 
-### [iScore Credit Bureau Dashboard](https://github.com/mrwanahmedx/iScore-Dashboard)
-Tableau portfolio dashboard for credit-bureau-style reporting and portfolio segmentation.
-
 
 ### [HR Attrition Analysis](https://github.com/mrwanahmedx/HR-Attrition-Analysis-Using-Python)
 Python exploratory analysis with explicit separation between descriptive association and causal claims.
