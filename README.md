@@ -57,3 +57,8 @@ Portfolio links are kept pointed at the active repositories rather than historic
 ## Confidentiality boundary
 
 Public work is kept separate from employment work. No employer/customer data, internal schemas, proprietary code, model parameters, screenshots, or confidential workflows are intentionally published in this portfolio.
+
+
+## GitHub profile README staging
+
+[`PROFILE_README.md`](./PROFILE_README.md) contains the finished content intended for GitHub's special profile repository (`mrwanahmedx/mrwanahmedx`). The connected GitHub interface used for this maintenance pass cannot create repositories, so the profile copy is kept versioned here until that special repository is created.
