@@ -40,6 +40,10 @@ Screenshots/      portfolio preview assets
 
 This repository is the general personal website. **Data Observatory** is the more technical, engineering-focused portfolio for interactive analytics, model validation, SQL, and tested browser case studies.
 
+## Legacy / superseded pages
+
+The repository intentionally retains `starter-page.html` and `portfolio-details.html` as historical template artifacts. They are clearly marked legacy and are not linked from the active portfolio navigation.
+
 ## Maintenance
 
 Portfolio links are kept pointed at the active repositories rather than historical / superseded project names. Unused template pages are removed when they are no longer referenced by the live site.
