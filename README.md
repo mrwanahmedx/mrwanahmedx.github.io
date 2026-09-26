@@ -1,59 +1,71 @@
-# Marwan Ahmed — Portfolio Website
+# Marwan Ahmed
 
-> **Legacy site:** this repository remains live for historical portfolio continuity. **Data Observatory is the primary technical portfolio.**
+**Risk Analytics & Models Development @ QNB Egypt**  
+Credit risk · model development · Python · T-SQL · model validation · financial analytics
 
-Personal GitHub Pages portfolio focused on risk analytics, credit risk, model development, model validation, SQL data engineering, and quantitative research.
+I work on risk-data and model-development problems where analytical correctness matters as much as the final output: defining grain, controlling joins, validating model behavior, documenting evidence, and stopping when the data does not support a claim.
 
-**Live site:** https://mrwanahmedx.github.io/
+## Selected work
 
-## Current project ecosystem
+### [Data Observatory](https://github.com/mrwanahmedx/data-observatory)
+Interactive analytics portfolio with tested browser case studies.
 
-The strongest technical work now lives across:
+- synthetic credit-risk model development and validation,
+- grain-safe SQL and anti-fan-out controls,
+- Python model outputs exposed in-browser,
+- financial-dashboard reconstruction,
+- CI, regression testing, and visible engineering change history.
 
-- **[Data Observatory](https://mrwanahmedx.github.io/data-observatory/)** — web-first analytics portfolio with tested interactive case studies.
-- **Credit Risk Lab** — synthetic Python + SQL model-validation case study inside Data Observatory.
-- **[Credit Risk Management Database](https://github.com/mrwanahmedx/Credit-Risk-Management-Database-SQL-Project)** — grain-controlled SQL and reconciliation.
-- **[HR Attrition Analysis](https://github.com/mrwanahmedx/HR-Attrition-Analysis-Using-Python)** — Python exploratory analysis.
-- **[EGX Quant Research](https://github.com/mrwanahmedx/EGX-Quant-Research)** — research-gated quantitative modeling and validation.
+**Live:** https://mrwanahmedx.github.io/data-observatory/
 
-## Site structure
+### [EGX Quant Research](https://github.com/mrwanahmedx/EGX-Quant-Research)
+Research-first quantitative modeling framework for the Egyptian Exchange.
 
-```text
-index.html        home
-about.html        profile
-resume.html       experience / education
-portfolio.html    project index
-services.html     capability overview
-contact.html      contact page
-assets/           CSS, JS, images and files
-Screenshots/      portfolio preview assets
-```
+- point-in-time and holdout controls,
+- leakage-safe validation design,
+- model registries and acceptance gates,
+- data-quality / provenance blocking,
+- explicit refusal to claim alpha before evidence passes.
 
-## Tech stack
+### [Credit Risk Management Database](https://github.com/mrwanahmedx/Credit-Risk-Management-Database-SQL-Project)
+Relational SQL project built around controlled analytical grain.
 
-- HTML
-- CSS
-- JavaScript
-- Bootstrap
-- GitHub Pages
+- deterministic latest-record logic,
+- pre-aggregation before one-to-many joins,
+- duplicate and orphan diagnostics,
+- reconciliation release gates,
+- executable SQLite CI.
 
-## Repository role
+### [iScore Dashboard](https://github.com/mrwanahmedx/iScore-Dashboard)
+Tableau credit-bureau-style portfolio, customer, loan, and default reporting.
 
-This repository is the recruiter-facing front door. **Data Observatory** is the technical portfolio for synthetic credit-risk analytics, model validation, SQL engineering, and tested browser case studies.
+### [Suez Canal Bank Finance Dashboard](https://github.com/mrwanahmedx/Suez-Canal-Bank-Finance-Dashboard)
+Power BI financial-performance dashboard with selected-year KPI logic and a tested browser replica.
 
-## Legacy / superseded pages
+### [HR Attrition Analysis](https://github.com/mrwanahmedx/HR-Attrition-Analysis-Using-Python)
+Python exploratory analysis with explicit separation between association and causality.
 
-The repository intentionally retains `starter-page.html` and `portfolio-details.html` as historical template artifacts. They are clearly marked legacy and are not linked from the active portfolio navigation.
+## Engineering principles
 
-## Maintenance
+- Define the target grain before joining data.
+- Prefer transparent baselines before complex challengers.
+- Keep holdouts untouched until the evidence gate is satisfied.
+- Treat failed validation as a result, not something to hide.
+- Preserve material bugs and fixes in version history.
+- Never present synthetic or partial evidence as real-world performance.
 
-Portfolio links are kept pointed at the active repositories rather than historical / superseded project names. Unused template pages are removed when they are no longer referenced by the live site.
+## Tools
 
-## Contact
+`Python` · `T-SQL / SQL Server` · `SQL` · `Tableau` · `Power BI` · `Excel` · `GitHub Actions`
 
-[LinkedIn](https://www.linkedin.com/in/mrwan-ahmed/) · [GitHub](https://github.com/mrwanahmedx)
+## Current focus
 
+- credit-risk model development and validation,
+- IFRS 9 / PD-LGD-EAD analytics,
+- model governance and monitoring,
+- reproducible quantitative-research workflows,
+- risk-data engineering.
 
-## Confidentiality boundary
+## Links
 
-Public work is kept separate from employment work. No employer/customer data, internal schemas, proprietary code, model parameters, screenshots, or confidential workflows are intentionally published in this portfolio.
+[Portfolio](https://mrwanahmedx.github.io/data-observatory/) · [LinkedIn](https://www.linkedin.com/in/mrwan-ahmed/) · [GitHub](https://github.com/mrwanahmedx)
