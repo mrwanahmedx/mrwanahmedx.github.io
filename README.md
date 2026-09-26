@@ -1,5 +1,7 @@
 # Marwan Ahmed — Portfolio Website
 
+> **Legacy site:** this repository remains live for historical portfolio continuity. **Data Observatory is the primary technical portfolio.**
+
 Personal GitHub Pages portfolio for analytics, financial analysis, risk-oriented data work, and business-intelligence projects.
 
 **Live site:** https://mrwanahmedx.github.io/
