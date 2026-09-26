@@ -11,7 +11,6 @@ The strongest technical work now lives across:
 - **[Data Observatory](https://mrwanahmedx.github.io/data-observatory/)** — web-first analytics portfolio with tested interactive case studies.
 - **Credit Risk Lab** — synthetic Python + SQL model-validation case study inside Data Observatory.
 - **[Credit Risk Management Database](https://github.com/mrwanahmedx/Credit-Risk-Management-Database-SQL-Project)** — grain-controlled SQL and reconciliation.
-- **[Suez Canal Bank Finance Dashboard](https://github.com/mrwanahmedx/Suez-Canal-Bank-Finance-Dashboard)** — Power BI financial-performance dashboard.
 - **[HR Attrition Analysis](https://github.com/mrwanahmedx/HR-Attrition-Analysis-Using-Python)** — Python exploratory analysis.
 - **[EGX Quant Research](https://github.com/mrwanahmedx/EGX-Quant-Research)** — research-gated quantitative modeling and validation.
 
