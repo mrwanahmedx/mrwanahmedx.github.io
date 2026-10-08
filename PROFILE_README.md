@@ -7,20 +7,18 @@ I work at the intersection of **credit-risk modeling, data engineering, model va
 
 ## Featured work
 
-### [Data Observatory](https://github.com/mrwanahmedx/data-observatory)
-Interactive analytics portfolio with tested browser case studies.
+### [iScore Credit Lab](https://mrwanahmedx.github.io/data-observatory/credit-methodology.html)
+Original flagship credit-risk analytics case study in Data Observatory, built with independent synthetic data.
 
-- synthetic credit-risk model validation,
-- grain-safe SQL and reconciliation,
-- Python + SQL code/results in-browser,
-- financial dashboard reconstruction,
+- 3,200 synthetic borrowers and 114,732 account-month records,
+- model performance, calibration, PSI and threshold analysis,
+- grain-safe SQL and Python source/results inspectable in-browser,
 - browser E2E and CI regression controls.
 
-**Live:** https://mrwanahmedx.github.io/data-observatory/
+**Case study:** https://mrwanahmedx.github.io/data-observatory/credit-methodology.html
+**Technical portfolio:** https://mrwanahmedx.github.io/data-observatory/
 
-**Model-development code:** [Synthetic Risk Model Lab](https://github.com/mrwanahmedx/data-observatory/tree/main/risk-model-lab)
-
-### [IFRS 9 Credit Risk Modeling](https://github.com/mrwanahmedx/data-observatory/tree/main/research/ifrs9-modeling)
+### [IFRS 9 / PD Modeling](https://github.com/mrwanahmedx/data-observatory/tree/main/research/ifrs9-modeling)
 Clean-room synthetic ECL research module.
 
 - reproducible synthetic exposure data,
@@ -30,7 +28,7 @@ Clean-room synthetic ECL research module.
 - grain, scenario-weight and monotonicity regression tests,
 - illustrative rules only — no employer policy or proprietary calibration.
 
-### [Credit Risk Model Validation](https://github.com/mrwanahmedx/data-observatory/tree/main/research/model-validation)
+### [Model Validation](https://github.com/mrwanahmedx/data-observatory/tree/main/research/model-validation)
 Independent synthetic validation framework.
 
 - ROC AUC / Gini / KS and Brier score,
@@ -39,6 +37,16 @@ Independent synthetic validation framework.
 - challenger comparison and override-governance audit,
 - explicit PASS / PASS WITH LIMITATIONS / REDEVELOPMENT REQUIRED outcomes,
 - transparent demo thresholds rather than hidden or employer-derived rules.
+
+### [Credit Risk SQL](https://github.com/mrwanahmedx/Credit-Risk-Management-Database-SQL-Project)
+Relational credit-risk SQL project emphasizing engineering discipline.
+
+- target-grain contracts,
+- deterministic latest-record logic,
+- pre-aggregation before joins,
+- anti-fan-out controls,
+- reconciliation and executable SQLite CI.
+
 
 ### [EGX Quant Research](https://github.com/mrwanahmedx/EGX-Quant-Research)
 Research-first quantitative modeling and validation for the Egyptian Exchange.
@@ -49,17 +57,7 @@ Research-first quantitative modeling and validation for the Egyptian Exchange.
 - baseline/challenger model framework,
 - explicit refusal to claim alpha when evidence is insufficient.
 
-### [Credit Risk Management Database](https://github.com/mrwanahmedx/Credit-Risk-Management-Database-SQL-Project)
-Relational credit-risk SQL project emphasizing engineering discipline.
-
-- target-grain contracts,
-- deterministic latest-record logic,
-- pre-aggregation before joins,
-- anti-fan-out controls,
-- reconciliation and executable SQLite CI.
-
-
-### [HR Attrition Analysis](https://github.com/mrwanahmedx/HR-Attrition-Analysis-Using-Python)
+### [HR Attrition](https://github.com/mrwanahmedx/HR-Attrition-Analysis-Using-Python)
 Python exploratory analysis with explicit separation between descriptive association and causal claims.
 
 ## Current technical focus
