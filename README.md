@@ -8,13 +8,16 @@ Personal GitHub Pages portfolio focused on risk analytics, credit risk, model de
 
 ## Current project ecosystem
 
-The strongest technical work now lives across:
+The recruiter-facing project order is:
 
-- **[Data Observatory](https://mrwanahmedx.github.io/data-observatory/)** — web-first analytics portfolio with tested interactive case studies.
-- **Credit Risk Lab** — synthetic Python + SQL model-validation case study inside Data Observatory.
-- **[Credit Risk Management Database](https://github.com/mrwanahmedx/Credit-Risk-Management-Database-SQL-Project)** — grain-controlled SQL and reconciliation.
-- **[HR Attrition Analysis](https://github.com/mrwanahmedx/HR-Attrition-Analysis-Using-Python)** — Python exploratory analysis.
-- **[EGX Quant Research](https://github.com/mrwanahmedx/EGX-Quant-Research)** — research-gated quantitative modeling and validation.
+1. **[iScore Credit Lab](https://mrwanahmedx.github.io/data-observatory/credit-methodology.html)** — independent synthetic credit-risk case study, Python/SQL and model performance.
+2. **[IFRS 9 / PD Modeling](https://github.com/mrwanahmedx/data-observatory/tree/main/research/ifrs9-modeling)** — synthetic staging, PD/LGD/EAD and scenario-weighted ECL.
+3. **[Model Validation](https://github.com/mrwanahmedx/data-observatory/tree/main/research/model-validation)** — synthetic discrimination, calibration, PSI and backtesting.
+4. **[Credit Risk SQL](https://github.com/mrwanahmedx/Credit-Risk-Management-Database-SQL-Project)** — grain controls and reconciliation.
+5. **[EGX Quant Research](https://github.com/mrwanahmedx/EGX-Quant-Research)** — evidence-gated quantitative research.
+6. **[HR Attrition](https://github.com/mrwanahmedx/HR-Attrition-Analysis-Using-Python)** — Python exploratory analysis.
+
+**[Data Observatory](https://mrwanahmedx.github.io/data-observatory/)** is the overall technical portfolio, not a duplicate iScore project.
 
 ## Site structure
 
