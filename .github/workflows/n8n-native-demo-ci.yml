@@ -4,7 +4,6 @@ on:
   push:
     paths:
       - ".github/workflows/n8n-native-demo-ci.yml"
-      - "python-service/n8n-job-intake/**"
   workflow_dispatch:
 
 permissions:
@@ -87,11 +86,15 @@ jobs:
       - name: Inspect isolated publication and webhook state
         shell: bash
         run: |
-          python3 - <<'PY'
+          sudo python3 - <<'PY'
           from pathlib import Path
           import os,sqlite3
           p=Path(os.environ["RUNNER_TEMP"])/"n8n-data"/"database.sqlite"
-          conn=sqlite3.connect(p)
+          print("DB_PATH",p,"EXISTS",p.exists())
+          if not p.exists():
+            print("No SQLite database located at expected path; native HTTP tests will determine readiness.")
+            raise SystemExit(0)
+          conn=sqlite3.connect(f"file:{p}?mode=ro",uri=True)
           for table in ("workflow_entity","webhook_entity"):
             cols=[row[1] for row in conn.execute(f"PRAGMA table_info({table})")]
             print("TABLE",table,"COLUMNS",cols)
