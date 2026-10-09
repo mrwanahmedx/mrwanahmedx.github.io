@@ -1,0 +1,138 @@
+name: n8n Job Intake - Native Integration Tests
+
+on:
+  push:
+    paths:
+      - ".github/workflows/n8n-native-demo-ci.yml"
+      - "python-service/n8n-job-intake/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  n8n-native-e2e:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - name: Checkout portfolio source
+        uses: actions/checkout@v4
+
+      - name: Start local-only job posting API
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 python-service/n8n-job-intake/demo_api.py > /tmp/n8n_demo_api.log 2>&1 &
+          echo $! > /tmp/n8n_demo_api.pid
+          for attempt in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8767/health; then
+              echo; echo "Local destination API ready"
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/n8n_demo_api.log
+          exit 1
+
+      - name: Pull official pinned n8n Docker image
+        run: docker pull n8nio/n8n:2.42.6
+
+      - name: Prepare isolated n8n test database
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/n8n-data"
+          sudo chown -R 1000:1000 "$RUNNER_TEMP/n8n-data"
+
+      - name: Import real n8n workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm --network host \
+            -e N8N_USER_FOLDER=/home/node/.n8n \
+            -e N8N_PORT=5679 \
+            -e N8N_HOST=127.0.0.1 \
+            -e N8N_ENCRYPTION_KEY=portfolio-ephemeral-n8n-integration-key-2026 \
+            -e N8N_DIAGNOSTICS_ENABLED=false \
+            -v "$RUNNER_TEMP/n8n-data:/home/node/.n8n" \
+            -v "$GITHUB_WORKSPACE/python-service/n8n-job-intake:/demo:ro" \
+            n8nio/n8n:2.42.6 import:workflow --input=/demo/workflow_n8n.json
+
+      - name: Publish workflow in isolated test database
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm --network host \
+            -e N8N_USER_FOLDER=/home/node/.n8n \
+            -e N8N_PORT=5679 \
+            -e N8N_HOST=127.0.0.1 \
+            -e N8N_ENCRYPTION_KEY=portfolio-ephemeral-n8n-integration-key-2026 \
+            -e N8N_DIAGNOSTICS_ENABLED=false \
+            -v "$RUNNER_TEMP/n8n-data:/home/node/.n8n" \
+            n8nio/n8n:2.42.6 publish:workflow --id=portWAHAjobdemo1
+
+      - name: Start real n8n engine on loopback
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run -d --name portfolio-n8n-native --network host \
+            -e N8N_USER_FOLDER=/home/node/.n8n \
+            -e N8N_PORT=5679 \
+            -e N8N_HOST=127.0.0.1 \
+            -e N8N_LISTEN_ADDRESS=127.0.0.1 \
+            -e N8N_EDITOR_BASE_URL=http://127.0.0.1:5679/ \
+            -e WEBHOOK_URL=http://127.0.0.1:5679/ \
+            -e N8N_ENCRYPTION_KEY=portfolio-ephemeral-n8n-integration-key-2026 \
+            -e N8N_DIAGNOSTICS_ENABLED=false \
+            -e N8N_RUNNERS_ENABLED=true \
+            -e N8N_RUNNERS_MODE=internal \
+            -e N8N_SECURE_COOKIE=false \
+            -v "$RUNNER_TEMP/n8n-data:/home/node/.n8n" \
+            n8nio/n8n:2.42.6 start
+
+          for attempt in $(seq 1 90); do
+            if curl -fsS http://127.0.0.1:5679/healthz; then
+              echo; echo "Native n8n healthy"
+              exit 0
+            fi
+            if ! docker inspect -f '{{.State.Running}}' portfolio-n8n-native | grep -q true; then
+              echo "n8n exited before health checks passed"
+              docker logs portfolio-n8n-native
+              exit 1
+            fi
+            sleep 2
+          done
+          docker logs portfolio-n8n-native
+          exit 1
+
+      - name: Exercise native webhook to API (seven real HTTP cases)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 python-service/n8n-job-intake/test_workflow.py | tee /tmp/native_e2e.log
+
+      - name: Preserve native test results and logs
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p /tmp/n8n-ci-evidence
+          cp /tmp/native_e2e.log /tmp/n8n-ci-evidence/ 2>/dev/null || true
+          cp /tmp/n8n_demo_api.log /tmp/n8n-ci-evidence/ 2>/dev/null || true
+          cp python-service/n8n-job-intake/evidence/integration_test_results.json /tmp/n8n-ci-evidence/ 2>/dev/null || true
+          docker logs portfolio-n8n-native > /tmp/n8n-ci-evidence/n8n_server.log 2>&1 || true
+
+      - name: Upload native run proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: n8n-native-e2e-test-evidence
+          path: /tmp/n8n-ci-evidence/
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Stop isolated test resources
+        if: always()
+        run: |
+          docker stop portfolio-n8n-native 2>/dev/null || true
+          docker rm portfolio-n8n-native 2>/dev/null || true
+          kill "$(cat /tmp/n8n_demo_api.pid)" 2>/dev/null || true
