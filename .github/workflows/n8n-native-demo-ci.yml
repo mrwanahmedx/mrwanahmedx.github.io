@@ -1,4 +1,5 @@
 name: n8n Job Intake - Native Integration Tests
+# Capture revision: close the optional n8n checklist
 
 on:
   push:
