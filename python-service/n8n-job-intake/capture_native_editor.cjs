@@ -65,11 +65,23 @@ const { chromium } = require('playwright-core');
       console.log('PRODUCTION_CHECKLIST_CLOSE_CANDIDATES',n);
       if(n) await candidates.last().click({timeout:3000}).catch(()=>{});
       if(await title.first().isVisible().catch(()=>false)) {
-        // Reproducible screenshot viewport 1760x1000: first-run panel's X control.
-        await page.mouse.click(364, 97);
-        await page.waitForTimeout(400);
+        // Hide only the optional first-run checklist card, without altering workflow nodes.
+        const removed=await title.first().evaluate((el)=>{
+          let p=el;
+          for(let i=0;i<8 && p;i++,p=p.parentElement){
+            const r=p.getBoundingClientRect();
+            if(r.x<100 && r.y<150 && r.width>270 && r.width<650 && r.height>220 && r.height<650){
+              p.style.display='none';
+              return {ancestorDepth:i,width:Math.round(r.width),height:Math.round(r.height)};
+            }
+          }
+          return null;
+        });
+        console.log('CHECKLIST_OVERLAY_HIDDEN',JSON.stringify(removed));
       }
-      console.log('CHECKLIST_VISIBLE_AT_CAPTURE',await title.first().isVisible().catch(()=>false));
+      const stillVisible=await title.first().isVisible().catch(()=>false);
+      console.log('CHECKLIST_VISIBLE_AT_CAPTURE',stillVisible);
+      if(stillVisible)throw Error('Optional checklist overlay still obstructs portfolio image');
     }
     await page.waitForTimeout(600);
     await page.screenshot({path:path.join(out,'authentic_n8n_editor_10_nodes.png'),animations:'disabled',fullPage:false});
