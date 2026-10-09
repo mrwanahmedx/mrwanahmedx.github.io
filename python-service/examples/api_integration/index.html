@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GitHub Issues to CSV | Code & Tests</title><style>
+*{box-sizing:border-box}body{margin:0;background:#f3f0e8;color:#1c2520;font-family:Arial,Helvetica,sans-serif}
+header{padding:26px 6%;border-bottom:1px solid #bfc3b9;display:flex;justify-content:space-between;gap:20px;align-items:center}
+a{color:#c45136;text-underline-offset:3px}a:hover{color:#6f2d1c}
+main{width:min(1100px,89vw);margin:65px auto}h1{font:normal clamp(35px,5vw,63px)/1.05 Georgia,serif;letter-spacing:-1.5px;margin:15px 0 28px}
+.kicker,.meta{font-size:13px;text-transform:uppercase;letter-spacing:1.6px;color:#c45136;font-weight:bold}
+.intro{font-size:20px;line-height:1.5;max-width:850px}
+.notice{border-left:3px solid #c45136;padding:10px 20px;margin:28px 0 46px;line-height:1.6;background:#eae6dc}
+.file{margin:40px 0 50px;border-top:1px solid #bfc3b9;padding-top:20px}
+.file h2{font-size:20px;margin-bottom:14px}
+pre{font-size:13px;line-height:1.5;background:#19231e;color:#edf0e9;padding:24px;overflow:auto;white-space:pre;max-height:580px;border-radius:5px}
+footer{padding:25px 6%;border-top:1px solid #bfc3b9;color:#657068}
+nav{display:flex;gap:18px;flex-wrap:wrap}
+</style></head>
+<body><header><strong>MA / PYTHON PROOF</strong><nav><a href="../../index.html">Overview</a><a href="../../case-api-export.html">Case study</a></nav></header>
+<main><p class="kicker">REST API / CASE B</p><h1>GitHub Issues to CSV — inspect the code.</h1>
+<p class="intro">A self-initiated technical demonstration, built with public, controlled or synthetic data. The example includes source code, sample outputs and local automated tests.</p>
+<div class="notice"><strong>4 automated tests passing in the local portfolio test suite.</strong> Results were independently rerun in the development environment on October 9, 2026. They are not a certification, security audit or paid-client endorsement.</div>
+<section class="file"><h2>README.md</h2><pre><code># Demonstration B — API Integration &amp; Troubleshooting
+
+## Problem
+
+A small team needs a repeatable export of public GitHub issues for triage. A reliable integration must handle pagination, optional authentication, invalid payloads, transient failures, and CSV handoff.
+
+## Run the live public-API demo
+
+No token is required for a small public request:
+
+```powershell
+python github_issues_exporter.py psf requests -o output/issues.csv --per-page 5 --max-pages 2
+```
+
+For higher GitHub rate limits, set an authorized token in `GITHUB_TOKEN`. The token is read from the environment and is never written to output.
+
+## Evidence
+
+```powershell
+python -m unittest discover -s tests -v
+```
+
+The tests simulate two API pages, confirm pull requests are excluded, verify CSV output, and exercise retry/error behavior without transmitting credentials.
+
+## Business value
+
+The integration produces a clean, auditable handoff file and fails clearly when the API response is incomplete instead of silently exporting bad data.
+
+</code></pre></section><section class="file"><h2>github_issues_exporter.py</h2><pre><code>from __future__ import annotations
+
+import argparse
+import csv
+import json
+import os
+import time
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Callable
+from urllib.error import HTTPError, URLError
+from urllib.parse import urlencode
+from urllib.request import Request, urlopen
+
+
+class IntegrationError(RuntimeError):
+    pass
+
+
+@dataclass(frozen=True)
+class ApiPage:
+    items: list[dict]
+    next_url: str | None
+
+
+def parse_next_link(raw_link: str | None) -&gt; str | None:
+    if not raw_link:
+        return None
+    for section in raw_link.split(&quot;,&quot;):
+        parts = [part.strip() for part in section.split(&quot;;&quot;)]
+        if len(parts) &gt;= 2 and &#x27;rel=&quot;next&quot;&#x27; in parts[1:]:
+            return parts[0].strip(&quot;&lt;&gt;&quot;)
+    return None
+
+
+class GitHubIssuesClient:
+    def __init__(
+        self,
+        token: str | None = None,
+        *,
+        base_url: str = &quot;https://api.github.com&quot;,
+        timeout: int = 15,
+        max_retries: int = 2,
+        opener: Callable = urlopen,
+        sleeper: Callable[[float], None] = time.sleep,
+    ) -&gt; None:
+        self.token = token
+        self.base_url = base_url.rstrip(&quot;/&quot;)
+        self.timeout = timeout
+        self.max_retries = max_retries
+        self.opener = opener
+        self.sleeper = sleeper
+
+    def _request_page(self, url: str) -&gt; ApiPage:
+        headers = {
+            &quot;Accept&quot;: &quot;application/vnd.github+json&quot;,
+            &quot;User-Agent&quot;: &quot;workflow-repair-portfolio-demo&quot;,
+            &quot;X-GitHub-Api-Version&quot;: &quot;2022-11-28&quot;,
+        }
+        if self.token:
+            headers[&quot;Authorization&quot;] = f&quot;Bearer {self.token}&quot;
+        request = Request(url, headers=headers)
+
+        for attempt in range(self.max_retries + 1):
+            try:
+                with self.opener(request, timeout=self.timeout) as response:
+                    payload = json.loads(response.read().decode(&quot;utf-8&quot;))
+                    if not isinstance(payload, list):
+                        raise IntegrationError(&quot;GitHub returned a non-list payload&quot;)
+                    return ApiPage(payload, parse_next_link(response.headers.get(&quot;Link&quot;)))
+            except (HTTPError, URLError, TimeoutError, json.JSONDecodeError) as exc:
+                if attempt &gt;= self.max_retries:
+                    raise IntegrationError(f&quot;GitHub request failed after {attempt + 1} attempts: {exc}&quot;) from exc
+                self.sleeper(0.25 * (2**attempt))
+        raise IntegrationError(&quot;unreachable retry state&quot;)
+
+    def fetch_issues(
+        self,
+        owner: str,
+        repo: str,
+        *,
+        state: str = &quot;open&quot;,
+        per_page: int = 30,
+        max_pages: int = 3,
+    ) -&gt; list[dict[str, str | int]]:
+        if state not in {&quot;open&quot;, &quot;closed&quot;, &quot;all&quot;}:
+            raise ValueError(&quot;state must be open, closed, or all&quot;)
+        params = urlencode({&quot;state&quot;: state, &quot;per_page&quot;: per_page, &quot;page&quot;: 1})
+        next_url: str | None = f&quot;{self.base_url}/repos/{owner}/{repo}/issues?{params}&quot;
+        exported: list[dict[str, str | int]] = []
+
+        for _ in range(max_pages):
+            if not next_url:
+                break
+            page = self._request_page(next_url)
+            for item in page.items:
+                if &quot;pull_request&quot; in item:
+                    continue
+                missing = [key for key in (&quot;id&quot;, &quot;number&quot;, &quot;title&quot;, &quot;state&quot;, &quot;html_url&quot;) if key not in item]
+                if missing:
+                    raise IntegrationError(f&quot;Issue payload missing fields: {&#x27;, &#x27;.join(missing)}&quot;)
+                exported.append(
+                    {
+                        &quot;id&quot;: item[&quot;id&quot;],
+                        &quot;number&quot;: item[&quot;number&quot;],
+                        &quot;title&quot;: &quot; &quot;.join(str(item[&quot;title&quot;]).split()),
+                        &quot;state&quot;: item[&quot;state&quot;],
+                        &quot;url&quot;: item[&quot;html_url&quot;],
+                        &quot;updated_at&quot;: item.get(&quot;updated_at&quot;, &quot;&quot;),
+                    }
+                )
+            next_url = page.next_url
+        return exported
+
+
+def export_csv(issues: list[dict[str, str | int]], output_path: Path) -&gt; None:
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    fields = [&quot;id&quot;, &quot;number&quot;, &quot;title&quot;, &quot;state&quot;, &quot;url&quot;, &quot;updated_at&quot;]
+    with output_path.open(&quot;w&quot;, newline=&quot;&quot;, encoding=&quot;utf-8-sig&quot;) as handle:
+        writer = csv.DictWriter(handle, fieldnames=fields)
+        writer.writeheader()
+        writer.writerows(issues)
+
+
+def main() -&gt; None:
+    parser = argparse.ArgumentParser(description=&quot;Export public GitHub issues to CSV.&quot;)
+    parser.add_argument(&quot;owner&quot;)
+    parser.add_argument(&quot;repo&quot;)
+    parser.add_argument(&quot;-o&quot;, &quot;--output&quot;, type=Path, default=Path(&quot;output/issues.csv&quot;))
+    parser.add_argument(&quot;--state&quot;, choices=(&quot;open&quot;, &quot;closed&quot;, &quot;all&quot;), default=&quot;open&quot;)
+    parser.add_argument(&quot;--per-page&quot;, type=int, default=30)
+    parser.add_argument(&quot;--max-pages&quot;, type=int, default=3)
+    args = parser.parse_args()
+
+    client = GitHubIssuesClient(token=os.environ.get(&quot;GITHUB_TOKEN&quot;))
+    issues = client.fetch_issues(
+        args.owner,
+        args.repo,
+        state=args.state,
+        per_page=args.per_page,
+        max_pages=args.max_pages,
+    )
+    export_csv(issues, args.output)
+    print(f&quot;Issues exported: {len(issues)}&quot;)
+    print(f&quot;Output: {args.output.resolve()}&quot;)
+
+
+if __name__ == &quot;__main__&quot;:
+    main()
+
+</code></pre></section><section class="file"><h2>tests/test_github_issues_exporter.py</h2><pre><code>from __future__ import annotations
+
+import csv
+import json
+import tempfile
+import unittest
+from pathlib import Path
+from urllib.error import URLError
+
+from github_issues_exporter import GitHubIssuesClient, IntegrationError, export_csv, parse_next_link
+
+
+class FakeResponse:
+    def __init__(self, payload: list[dict], link: str | None = None) -&gt; None:
+        self.payload = payload
+        self.headers = {&quot;Link&quot;: link} if link else {}
+
+    def read(self) -&gt; bytes:
+        return json.dumps(self.payload).encode(&quot;utf-8&quot;)
+
+    def __enter__(self) -&gt; &quot;FakeResponse&quot;:
+        return self
+
+    def __exit__(self, exc_type, exc, traceback) -&gt; None:
+        return None
+
+
+class GitHubIntegrationTests(unittest.TestCase):
+    def test_next_link_parser(self) -&gt; None:
+        raw = &#x27;&lt;https://api.example.test/issues?page=2&gt;; rel=&quot;next&quot;, &lt;https://api.example.test/issues?page=4&gt;; rel=&quot;last&quot;&#x27;
+        self.assertEqual(parse_next_link(raw), &quot;https://api.example.test/issues?page=2&quot;)
+
+    def test_pagination_validation_and_pull_request_filter(self) -&gt; None:
+        responses = iter(
+            [
+                FakeResponse(
+                    [
+                        {&quot;id&quot;: 1, &quot;number&quot;: 10, &quot;title&quot;: &quot; First  issue &quot;, &quot;state&quot;: &quot;open&quot;, &quot;html_url&quot;: &quot;https://example/10&quot;},
+                        {&quot;id&quot;: 2, &quot;number&quot;: 11, &quot;title&quot;: &quot;PR&quot;, &quot;state&quot;: &quot;open&quot;, &quot;html_url&quot;: &quot;https://example/11&quot;, &quot;pull_request&quot;: {}},
+                    ],
+                    &#x27;&lt;https://api.example.test/issues?page=2&gt;; rel=&quot;next&quot;&#x27;,
+                ),
+                FakeResponse(
+                    [{&quot;id&quot;: 3, &quot;number&quot;: 12, &quot;title&quot;: &quot;Second issue&quot;, &quot;state&quot;: &quot;open&quot;, &quot;html_url&quot;: &quot;https://example/12&quot;}]
+                ),
+            ]
+        )
+
+        client = GitHubIssuesClient(opener=lambda request, timeout: next(responses), sleeper=lambda _: None)
+        issues = client.fetch_issues(&quot;owner&quot;, &quot;repo&quot;, per_page=2, max_pages=3)
+        self.assertEqual([issue[&quot;number&quot;] for issue in issues], [10, 12])
+        self.assertEqual(issues[0][&quot;title&quot;], &quot;First issue&quot;)
+
+    def test_retry_failure_is_clear(self) -&gt; None:
+        client = GitHubIssuesClient(
+            opener=lambda request, timeout: (_ for _ in ()).throw(URLError(&quot;offline&quot;)),
+            max_retries=1,
+            sleeper=lambda _: None,
+        )
+        with self.assertRaisesRegex(IntegrationError, &quot;after 2 attempts&quot;):
+            client.fetch_issues(&quot;owner&quot;, &quot;repo&quot;)
+
+    def test_csv_export(self) -&gt; None:
+        issues = [{&quot;id&quot;: 1, &quot;number&quot;: 2, &quot;title&quot;: &quot;A&quot;, &quot;state&quot;: &quot;open&quot;, &quot;url&quot;: &quot;https://example/2&quot;, &quot;updated_at&quot;: &quot;&quot;}]
+        with tempfile.TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / &quot;issues.csv&quot;
+            export_csv(issues, path)
+            with path.open(encoding=&quot;utf-8-sig&quot;) as handle:
+                rows = list(csv.DictReader(handle))
+            self.assertEqual(rows[0][&quot;title&quot;], &quot;A&quot;)
+
+
+if __name__ == &quot;__main__&quot;:
+    unittest.main()
+
+</code></pre></section><section class="file"><h2>output/issues.csv</h2><pre><code>﻿id,number,title,state,url,updated_at
+5727743197,7632,Lingering docstring references to python2.7 cookielib,open,https://github.com/psf/requests/issues/7632,2026-10-06T11:40:32Z
+5647586466,7631,TestTimeout abandons three delay/10 requests and later tests wait out the server,open,https://github.com/psf/requests/issues/7631,2026-10-03T14:31:31Z
+5571965961,7630,Incorrect type annotation for iter_lines,open,https://github.com/psf/requests/issues/7630,2026-10-07T11:49:04Z
+5552751394,7629,proxy_bypass_registry uses unanchored re.match (Windows proxy bypass),open,https://github.com/psf/requests/issues/7629,2026-09-30T20:37:16Z
+5490769672,7627,Docstring examples in `from_key_val_list` show the pre-3.12 OrderedDict repr,open,https://github.com/psf/requests/issues/7627,2026-09-26T11:08:37Z
+5386476764,7620,PR 5410 got merged but is not in fact merged,open,https://github.com/psf/requests/issues/7620,2026-09-17T10:56:59Z
+5304952828,7617,OpenSSL 4 removed built-in logic for SKID and AKID,open,https://github.com/psf/requests/issues/7617,2026-09-04T05:48:19Z
+5255457456,7610,Drop the versionless `License ::` classifier now that `license` is a valid SPDX expression,open,https://github.com/psf/requests/issues/7610,2026-09-06T22:58:03Z
+5058569197,7599,Documentation for stream parameter is ambiguous,open,https://github.com/psf/requests/issues/7599,2026-09-04T05:49:27Z
+</code></pre></section>
+</main><footer>Demonstration only · Source files are also supplied with the local delivery package</footer></body></html>
