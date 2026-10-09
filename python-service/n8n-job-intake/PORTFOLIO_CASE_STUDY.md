@@ -1,6 +1,6 @@
 # Bilingual Job-Post Intake Automation — n8n + Webhooks + Python API
 
-**Self-directed, code-verified prototype | native n8n integration pending | English + Arabic**
+**Self-directed, n8n 2.42.6 native-integration-verified prototype | 7/7 tests passed | English + Arabic**
 
 ## The problem
 Job announcements arrive as free-form WhatsApp group messages. Someone must decide whether each message is a real job posting, read the details, manually enter the listing into an API form, and handle duplicates or incomplete posts. Arabic-English formatting differences and temporarily unavailable APIs make the manual process harder.
@@ -37,13 +37,13 @@ Structured result:
 }
 
 ## Technical stack
-n8n workflow JSON; webhook event normalization; JavaScript in n8n Code nodes; native n8n IF and HTTP Request nodes; Python 3.12 local REST receiver; SQLite storage; seven-case native n8n live workflow test runner (prepared, not yet passed).
+n8n workflow JSON; webhook event normalization; JavaScript in n8n Code nodes; native n8n IF and HTTP Request nodes; Python 3.12 local REST receiver; SQLite storage; seven-case native n8n webhook-to-API test runner, independently passed on an isolated GitHub Actions server.
 
 ## Project files and proof
 - workflow_n8n.json — actual editable/importable n8n automation.
 - demo_api.py — REST API with SQLite persistence and deduplication.
 - test_workflow.py — sends synthetic English/Arabic WAHA messages through the real n8n webhook.
-- evidence/integration_test_results.json — only generated when end-to-end tests succeed.
+- evidence/NATIVE_E2E_VERIFIED.md — independently verified 7/7 native execution results; original JSON and logs retained in GitHub Actions artifact.
 - README.md — runbook, source and real-versus-simulated disclosures.
 
 ## Boundaries and honesty
@@ -53,4 +53,7 @@ The value demonstrated is a working, testable automation architecture and reliab
 
 ## Latest test evidence
 
-50/50 original synthetic messages passed against embedded n8n Code-node JavaScript; separately, 4/4 local HTTP API unit tests passed. No native n8n workflow execution, real WhatsApp integration, or LLM model run has yet been verified. An authentic workflow architecture diagram and observed input/output examples are included in portfolio_assets/.
+50/50 original synthetic messages passed against embedded n8n Code-node JavaScript; 4/4 local HTTP API unit tests passed; **7/7 native n8n webhook-to-API integration tests passed** with real HTTP submission, API retry and SQLite persistence in an isolated official n8n Docker environment on October 9, 2026. The demonstration still uses synthetic WAHA-format input; no real WhatsApp connection, LLM model, live customer API or production hosting is claimed. An authentic workflow architecture diagram and observed input/output examples are included in portfolio_assets/.
+
+
+[**See the successful seven-test native n8n run and its logs**](https://github.com/mrwanahmedx/mrwanahmedx.github.io/actions/runs/37971158690) · [Detailed evidence](evidence/NATIVE_E2E_VERIFIED.md)
