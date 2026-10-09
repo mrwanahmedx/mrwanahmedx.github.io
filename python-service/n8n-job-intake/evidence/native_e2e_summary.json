@@ -1,0 +1,68 @@
+{
+  "test_run_id": 37971158690,
+  "verified_at_utc": "2026-10-09T18:09:29Z",
+  "official_n8n_version": "2.42.6",
+  "environment": "Ephemeral GitHub Actions ubuntu-24.04 runner, official n8nio/n8n Docker image",
+  "workflow_file": "../workflow_n8n.json",
+  "native_n8n_import": true,
+  "native_n8n_publish": true,
+  "native_n8n_webhook_execution": true,
+  "live_end_to_end_tests": {
+    "total": 7,
+    "passed": 7,
+    "failed": 0
+  },
+  "scenarios": [
+    {
+      "test": "english_created",
+      "result": "PASS",
+      "response": "submitted"
+    },
+    {
+      "test": "english_duplicate",
+      "result": "PASS",
+      "response": "duplicate"
+    },
+    {
+      "test": "arabic_created",
+      "result": "PASS",
+      "response": "submitted"
+    },
+    {
+      "test": "retry_503_then_created",
+      "result": "PASS",
+      "response": "submitted"
+    },
+    {
+      "test": "non_job_ignored",
+      "result": "PASS",
+      "response": "ignored"
+    },
+    {
+      "test": "missing_city_needs_review",
+      "result": "PASS",
+      "response": "needs_review"
+    },
+    {
+      "test": "private_chat_ignored",
+      "result": "PASS",
+      "response": "ignored"
+    }
+  ],
+  "job_api": {
+    "backend": "Python HTTP and SQLite",
+    "jobs_inserted": 3,
+    "transient_request_attempts": 2,
+    "deduplicated": true
+  },
+  "limitations": [
+    "Synthetic WAHA-formatted messages only",
+    "No live WhatsApp group connected",
+    "No customer production API or LLM provider connected",
+    "No 24/7 deployment or client contract claimed"
+  ],
+  "links": {
+    "successful_ci_run": "https://github.com/mrwanahmedx/mrwanahmedx.github.io/actions/runs/37971158690",
+    "full_original_proof_artifact": "https://github.com/mrwanahmedx/mrwanahmedx.github.io/actions/runs/37971158690/artifacts/11634988933"
+  }
+}
