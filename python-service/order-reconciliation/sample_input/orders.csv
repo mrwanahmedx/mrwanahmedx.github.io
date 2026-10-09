@@ -1,0 +1,10 @@
+order_id,customer,expected_amount,status
+O-1001,Aster Studio,$125.00,completed
+O-1002,North Pier,$59.90,completed
+O-1003,West Market,74.50,completed
+O-1004,Harbor Craft,30.00,pending
+O-1005,Maple Works,180.00,completed
+O-1005,Maple Works,180.00,completed
+O-1006,Fern Shop,not-a-number,completed
+O-1007,Bay Supplies,250.00,completed
+O-1008,Ember Co,12.00,completed
