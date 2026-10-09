@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Inspect the actual n8n workflow JSON, bilingual WAHA message parsing code, SQLite-backed demo API and reproducible tests. Honest prototype status.">
+<title>Bilingual Job Intake — n8n Prototype & Tested Source</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f3f0e8;color:#19211d;font-family:Arial,Helvetica,sans-serif}
+.wrap{max-width:1200px;margin:auto;padding:34px 5vw 42px}header{display:flex;justify-content:space-between;align-items:center;gap:20px;border-bottom:1px solid #c9c9bb;padding-bottom:22px;font-size:13px;letter-spacing:1.3px;font-weight:700}
+.brand{font-size:23px;letter-spacing:-1px}.brand span{color:#d85030;font-size:13px}.tag,.label{font-size:13px;color:#b74630;letter-spacing:1.4px;font-weight:700;text-transform:uppercase}
+main{display:grid;grid-template-columns:1.3fr .7fr;gap:8%;padding:58px 0 65px}h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(40px,5vw,66px);font-weight:400;line-height:1.06;letter-spacing:-2px;margin:18px 0 26px}
+.lead{font-size:21px;line-height:1.55;color:#3e4a43;max-width:720px}.facts{border-top:2px solid #29372d;margin-top:35px;padding-top:18px}.fact{display:grid;grid-template-columns:100px 1fr;gap:20px;padding:14px 0;border-bottom:1px solid #dbd9cf;line-height:1.5;font-size:16px}
+.score{font:normal 77px Georgia,serif;margin:17px 0 2px}.sub{font-size:12px;letter-spacing:1.1px;text-transform:uppercase;color:#6b726c}.card{border-top:2px solid #28352b;margin-top:32px;padding-top:16px;line-height:1.65}.card p{margin:10px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;margin:20px 0}td,th{padding:12px 9px;border-bottom:1px solid #ccc9be;text-align:left;vertical-align:top}th{color:#8c402b}code{font-family:Consolas,monospace;font-size:.9em}
+pre{white-space:pre-wrap;word-break:break-word;background:#e6e6db;padding:16px;font:14px/1.65 Consolas,monospace;border-left:3px solid #b74630}
+a{color:#ab4029;text-underline-offset:4px}a:focus-visible{outline:3px solid #d85030;outline-offset:4px}
+footer{display:flex;justify-content:space-between;gap:20px;border-top:1px solid #c9c9bb;padding-top:22px;color:#555f58;font-size:12px;letter-spacing:.06em}
+@media(max-width:760px){.wrap{padding:18px 6vw 26px}header{flex-wrap:wrap}main{display:block;padding:36px 0}.lead{font-size:18px}.fact{grid-template-columns:82px 1fr}.score{font-size:56px}footer{display:block}h1{letter-spacing:-1px}}
+</style></head><body><div class="wrap">
+<header><div class="brand">MA<span>/01</span></div><div>WORKFLOW ENGINEERING / CASE E</div></header>
+<main><section>
+<div class="tag">N8N · WEBHOOKS · BILINGUAL EXTRACTION · SQLITE</div>
+<h1>From group message<br>to structured job.</h1>
+<p class="lead">An inspectable ten-node n8n workflow prototype for UAE film and events hiring posts. WAHA-shaped English and Arabic messages are normalized, classified, checked for required fields and routed toward an HTTP job-form API.</p>
+<div class="facts">
+<div class="fact"><div class="label">Input</div><div>Synthetic WhatsApp-group event objects shaped like WAHA webhooks, including message IDs, group identities and free-form text.</div></div>
+<div class="fact"><div class="label">Flow</div><div>Webhook → normalize → parse → validate → conditional HTTP request → response. Non-jobs and private messages are ignored; incomplete jobs require review.</div></div>
+<div class="fact"><div class="label">Backend</div><div>A separate local Python REST service persists accepted jobs into SQLite and detects duplicate external IDs. It can simulate HTTP 503 responses for retry tests.</div></div>
+<div class="fact"><div class="label">Status</div><div>Self-directed source prototype, not a client deployment. Actual WAHA account, LLM model, client API and native n8n webhook end-to-end run are not yet connected or verified.</div></div></div>
+<div class="card"><div class="tag">Observed offline extraction examples</div>
+<table><thead><tr><th>Message</th><th>Verified embedded-code result</th></tr></thead><tbody>
+<tr><td>Hiring Camera Operator in Dubai. AED 800.</td><td><code>ready · Camera Operator · Dubai · AED 800</code></td></tr>
+<tr><td lang="ar">مطلوب مونتير بدبي الأجر ٢٠٠٠ درهم</td><td><code>ready · مونتير · Dubai · 2000 درهم</code></td></tr>
+<tr><td lang="ar">مطلوب مونتير بشكل عاجل</td><td><code>needs_review · missing UAE_city</code></td></tr>
+<tr><td lang="ar">صباح الخير للجميع</td><td><code>ignored · non_job_message</code></td></tr>
+</tbody></table><p>These outputs are from JavaScript evaluated from the actual n8n Code nodes, not evidence of live WhatsApp processing.</p></div>
+</section>
+<aside><div class="tag">OFFLINE VERIFIED · OCT 2026</div><div class="score">50 / 50</div><div class="sub">Synthetic extraction cases · not native n8n E2E</div>
+<div class="card"><div class="tag">Real source, not a mockup</div>
+<p><a href="n8n-job-intake/workflow_n8n.json">View importable n8n workflow JSON ↗</a></p>
+<p><a href="n8n-job-intake/validate_workflow.js">Inspect Code-node tests ↗</a></p>
+<p><a href="n8n-job-intake/demo_api.py">Inspect local REST + SQLite API ↗</a></p>
+<p><a href="n8n-job-intake/test_workflow.py">Inspect seven native-webhook test cases ↗</a></p>
+<p><a href="n8n-job-intake/README.md">Setup and precise verification limits ↗</a></p>
+</div>
+<div class="card"><div class="tag">Working vs pending</div>
+<p><strong>Verified:</strong> real 10-node JSON with 9 connections; offline Arabic/English extraction; local API test suite and SQLite persistence.</p>
+<p><strong>Pending:</strong> successful native workflow import and all seven HTTP webhook tests; approved WAHA session; a real client form; LLM structured output; 24/7 deployment.</p></div>
+<div class="card"><div class="tag">Client adaptation</div><p>Add documented WAHA credentials, group allowlist, secure webhook authentication, the buyer's exact form schema, structured-output LLM and an error/review queue. No credentials are embedded in this example.</p></div>
+</aside></main>
+<footer><span>SELF-DIRECTED PROTOTYPE · SYNTHETIC INPUTS · NO CLIENT CLAIMS</span><a href="index.html">← Return to technical portfolio</a></footer>
+</div></body></html>
