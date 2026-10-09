@@ -1,0 +1,37 @@
+{
+  "purpose": "synthetic technical sample / no legal certification",
+  "note": "Lossy re-encoding; original hash maintained for traceability; do not claim compressed version is byte-identical or forensic original",
+  "created_utc": "2026-10-09T20:49:10Z",
+  "original": {
+    "name": "synthetic_original.mkv",
+    "bytes": 6357526,
+    "sha256": "bbeb9ec713cf5031d0cacdc84d956c72730f3e7a4ede3c309c2038de4a759162",
+    "duration_seconds": 18.0
+  },
+  "compressed": {
+    "name": "compressed_reference.mp4",
+    "bytes": 1125316,
+    "sha256": "790c47d66e2df27e06efae54cc11873f611d0b03ca62c378e8900a47e257e565",
+    "duration_seconds": 18.0
+  },
+  "segments": [
+    {
+      "name": "segment_01.mp4",
+      "bytes": 562277,
+      "sha256": "3669d099c74e81d1a525a8ec83a21828e9072ba7026218a31fa52e1a57b36280",
+      "start_seconds": 0.0,
+      "planned_end_seconds": 9.0,
+      "actual_duration_seconds": 9.0
+    },
+    {
+      "name": "segment_02.mp4",
+      "bytes": 560759,
+      "sha256": "5b1022d7d7142ee251e1ab04b1947b6c4dd68182975fd4b6d99777111c7da271",
+      "start_seconds": 9.0,
+      "planned_end_seconds": 18.0,
+      "actual_duration_seconds": 9.0
+    }
+  ],
+  "video_codec": "H.264 CRF28",
+  "audio_codec": "AAC 128kbps when source contains audio"
+}
