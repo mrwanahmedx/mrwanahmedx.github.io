@@ -1,6 +1,6 @@
 # WAHA WhatsApp Group to UAE Job Form API — a real n8n portfolio project
 
-This repository contains an authentic 10-node n8n workflow definition and tested embedded logic. Native n8n import and webhook execution remain unverified.
+This repository contains a real ten-node n8n workflow, verified in the official n8n 2.42.6 engine with **7/7 native webhook-to-API integration tests passing**. The test runner imports, publishes and executes the workflow in an isolated GitHub Actions environment.
 
 ## Problem
 A UAE film/TV/events platform currently receives English and Arabic job posts in a WhatsApp group. The team manually copies these posts into a Job Posting Form API. We built a realistic local demonstration of the workflow.
@@ -24,11 +24,20 @@ Live local demo API: demo_api.py, hosted on 127.0.0.1:8767. Real SQLite persiste
 An extraction is auto-submitted only when it has a clear supported job role and a UAE city. Incomplete messages are marked needs_review; non-job messages and private chats are ignored.
 
 ## Verified functions vs not connected
-- Built as real n8n node definitions: incoming webhook, Code, IF, HTTP Request, retry/response branches. Native n8n execution has not yet been verified. The embedded JavaScript and separate real SQLite HTTP API were tested successfully.
+- **Native n8n execution verified (7/7):** incoming webhook, Code, IF, HTTP request, retry and response paths, with a real local Python/SQLite receiver. Independent Code-node and API unit tests also passed.
 - WAHA WhatsApp group integration: synthetic WAHA-shaped webhook fixtures only; real WhatsApp account NOT connected.
 - External client form API: local real HTTP service substitutes for unspecified customer API.
 - LLM extraction: NOT implemented; clear deterministic rules are used. Do not claim this workflow includes OpenAI/Claude/Arabic LLM extraction.
 - Production 24/7 hosting: NOT provided or claimed.
+
+## Independent native execution proof
+
+- **[Passing GitHub Actions run — 7/7 native integration tests](https://github.com/mrwanahmedx/mrwanahmedx.github.io/actions/runs/37971158690)**
+- [Evidence table and exact limitations](evidence/NATIVE_E2E_VERIFIED.md)
+- [Machine-readable seven-test summary](evidence/native_e2e_summary.json)
+- [Original detailed execution artifact](https://github.com/mrwanahmedx/mrwanahmedx.github.io/actions/runs/37971158690/artifacts/11634988933)
+
+On October 9, 2026, GitHub Actions imported and published the actual workflow in the official n8n 2.42.6 Docker image. Actual English and Arabic messages reached the webhook and a local SQLite-backed HTTP API. Tests verified three inserted jobs, idempotent duplicates, simulated HTTP 503 recovery, ignored non-jobs, manual review and private-chat rejection. This is a **synthetic local integration test**, not a real WhatsApp, LLM or production deployment.
 
 ## Local requirements and endpoints
 Local Windows, Node.js 20.19–24.x and Python 3.12+.
