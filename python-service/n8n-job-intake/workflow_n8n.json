@@ -1,0 +1,303 @@
+{
+  "id": "portWAHAjobdemo1",
+  "active": false,
+  "name": "Portfolio | WAHA Bilingual Job Intake to API (Safe Demo)",
+  "nodes": [
+    {
+      "id": "9e1cc23e-0a46-5053-bf4b-1891232ee757",
+      "name": "WAHA Incoming Message",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        200,
+        260
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "portfolio-waha-jobs-v1",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "webhookId": "e1a64e32-8c61-4954-8233-919973e440a5"
+    },
+    {
+      "id": "7aebb7f1-9116-552f-b373-0af8aecca67e",
+      "name": "Normalize WAHA Payload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        480,
+        260
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const inbound = $input.first().json;\nconst envelope = inbound.body && typeof inbound.body === 'object' ? inbound.body : inbound;\nconst payload = envelope.payload && typeof envelope.payload === 'object' ? envelope.payload\n  : (envelope.message && typeof envelope.message === 'object' ? envelope.message : envelope);\nconst inner = payload.message && typeof payload.message === 'object' ? payload.message : payload;\nconst pick = (...vals) => vals.find(v => typeof v === 'string' && v.trim().length > 0) || '';\nconst text = pick(inner.body, inner.text, inner.message?.conversation,\n  inner.message?.extendedTextMessage?.text, payload.body, payload.text, envelope.text);\nconst chatId = pick(inner.from, inner.chatId, inner.key?.remoteJid, payload.chatId,\n  payload.from, envelope.chatId);\nconst rawId = inner.id ?? inner.key?.id ?? payload.id ?? envelope.id;\nconst messageId = typeof rawId === 'string' ? rawId :\n  typeof rawId === 'object' && rawId ? pick(rawId._serialized, rawId.id) : '';\nconst fromMe = inner.fromMe === true || inner.key?.fromMe === true || payload.fromMe === true;\nconst eventType = pick(envelope.event, envelope.type, 'message');\nconst isGroup = chatId.endsWith('@g.us') || inner.isGroup === true || payload.isGroup === true;\nlet hash = 2166136261;\nfor (const c of chatId + ':' + (messageId || text)) {\n  hash ^= c.codePointAt(0);\n  hash = Math.imul(hash, 16777619);\n}\nconst externalId = 'demo-waha-' + (hash >>> 0).toString(16).padStart(8, '0');\nreturn [{ json: {\n  external_id: externalId,\n  message_id: messageId || 'text-fingerprint',\n  text: String(text).slice(0,5000),\n  is_group: isGroup,\n  from_me: fromMe,\n  event_type: eventType,\n  test_retry: payload.test_retry === true || envelope.test_retry === true,\n  source: 'waha-webhook'\n}}];"
+      }
+    },
+    {
+      "id": "59150986-d06f-5270-87ea-a46503f2f72f",
+      "name": "Classify and Extract Job",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        760,
+        260
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const m = $input.first().json;\nconst text = m.text || '';\nconst ignoreReason = !m.is_group ? 'not_group_message'\n  : m.from_me ? 'own_message'\n  : !/(^message(?:\\.any)?$)/i.test(m.event_type) ? 'unrelated_event'\n  : !text.trim() ? 'empty_text' : '';\nif (ignoreReason) return [{json:{state:'ignored',reason:ignoreReason,external_id:m.external_id}}];\nconst notJob = /(not hiring|no job openings|looking for an apartment|just checking lunch|house for rent|for sale|صباح الخير|إعلان بيع|غير مطلوب موظفين)/i;\nconst roleTable = [\n  ['Camera Operator', /\\b(camera operator|camera person|cameraman)\\b/i],\n  ['Video Editor', /\\b(video editor|film editor|editing videos)\\b/i],\n  ['Production Assistant', /\\b(production assistant|production runner)\\b/i],\n  ['Videographer', /\\b(videographer)\\b/i],\n  ['Sound Engineer', /\\b(sound engineer|audio engineer)\\b/i],\n  ['Event Coordinator', /\\b(event coordinator|event assistant)\\b/i],\n  ['Lighting Technician', /\\b(lighting technician|gaffer)\\b/i],\n  ['Photographer', /\\b(photographer)\\b/i],\n  ['Motion Graphics Designer', /\\b(motion graphics designer|motion designer)\\b/i],\n  ['مصور فيديو', /(مصور فيديو|مصور ڤيديو)/],\n  ['مصور', /(مصور|كاميرا مان)/],\n  ['مونتير', /(مونتير|محرر فيديو)/],\n  ['مساعد إنتاج', /(مساعد إنتاج|مساعد انتاج)/],\n  ['مهندس صوت', /(مهندس صوت)/],\n  ['منسق فعاليات', /(منسق فعاليات)/]\n];\nconst intent = /(hiring|we (?:are )?looking for|looking for a|need(?:ed)?|seeking|vacancy|job opening|crew call|casting|production assistant|video editor|مطلوب|فرصة عمل|نبحث عن|توظيف|وظيفة|محتاجين)/i.test(text);\nif (notJob.test(text) || !intent) {\n  return [{json:{state:'ignored',reason:notJob.test(text)?'non_job_message':'no_hiring_intent',external_id:m.external_id}}];\n}\nconst role = roleTable.find(([name,pat]) => pat.test(text));\nconst cities = [\n ['Dubai',/(Dubai|دبي)/i],['Abu Dhabi',/(Abu Dhabi|Abudhabi|أبو ?ظبي|ابو ?ظبي)/i],\n ['Sharjah',/(Sharjah|الشارقة)/i],['Ajman',/(Ajman|عجمان)/i],\n ['Al Ain',/(Al Ain|العين)/i],['Ras Al Khaimah',/(Ras Al Khaimah|رأس الخيمة)/i]\n];\nconst city = cities.find(([name,pat])=>pat.test(text))?.[0] || '';\nconst titlePattern = text.match(/(?:^|\\n)\\s*(?:Role|Position|Job\\s*Title)\\s*[:\\-]\\s*([^\\n]{4,100})/i);\nconst title = role?.[0] || (titlePattern ? titlePattern[1].trim() : '');\nconst normalizedDigits = text.replace(/[٠-٩۰-۹]/g, c =>\n  String(c.charCodeAt(0) - (c.charCodeAt(0) >= 0x06F0 ? 0x06F0 : 0x0660)));\nconst pay = normalizedDigits.match(/(?:AED|DHS?|د\\.?\\s?إ)\\s?[0-9,]+(?:\\.[0-9]+)?\\s?[kK]?(?:\\s?\\/\\s?(?:day|يوم))?|[0-9,]+(?:\\.[0-9]+)?\\s?[kK]?(?:\\s?\\/\\s?(?:day|يوم))?\\s?(?:AED|DHS?|درهم)|\\b[0-9]+(?:\\.[0-9]+)?\\s?[kK]\\s?\\/\\s?day\\b/i)?.[0] || '';\nconst workDate = text.match(/\\b\\d{1,2}[\\/-]\\d{1,2}[\\/-]\\d{4}\\b|\\b\\d{1,2}\\s+(?:Oct|Nov|Dec|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep)\\b/i)?.[0] || '';\nconst employmentType = /(?:freelance|فريلانسر|مستقل)/i.test(text) ? 'freelance'\n : /(?:part.time|دوام جزئي)/i.test(text) ? 'part-time'\n : /(?:full.time|دوام كامل)/i.test(text) ? 'full-time'\n : /(?:contract|مؤقت|لمدة يوم)/i.test(text) ? 'contract' : 'unspecified';\nconst language = /[\\u0600-\\u06FF]/.test(text) ? 'ar' : 'en';\nconst missing = [];\nif(!title)missing.push('job_title');\nif(!city)missing.push('UAE_city');\nconst confidence = Math.min(1,0.45+(title?0.25:0)+(city?0.20:0)+(pay?0.05:0)+(workDate?0.05:0));\nif(missing.length) return [{json:{state:'needs_review',reason:'missing_required_fields',\n  missing_fields:missing,external_id:m.external_id,language,confidence}}];\nconst job={external_id:m.external_id,title,city,language,employment_type:employmentType,\n  pay,work_date:workDate,source:'waha-webhook',\n  test_retry:m.test_retry===true};\nreturn [{json:{state:'ready',job,confidence}}];"
+      }
+    },
+    {
+      "id": "6910794d-31f2-5991-adfd-3e58ef932bf0",
+      "name": "Complete Job Details?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1040,
+        260
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "031ad625-9ced-501a-b410-cae3a2aa0286",
+              "leftValue": "={{ $json.state }}",
+              "rightValue": "ready",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "628a5be1-2646-5612-ad5c-6318d69c9f42",
+      "name": "Submit to Demo Job API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1320,
+        130
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://127.0.0.1:8767/jobs",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.job) }}",
+        "options": {
+          "timeout": 12000
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 1200,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "id": "fc0cb0e2-7063-5a9f-b413-cda1d7c0eba8",
+      "name": "Prepare Submission Receipt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1580,
+        70
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const response = $input.first().json;\nreturn [{json:{\n  state:response.duplicate ? 'duplicate' : 'submitted',\n  external_id:response.external_id || '',\n  stored:response.stored===true,\n  duplicate:response.duplicate===true,\n  destination:'local-demo-job-form'\n}}];"
+      }
+    },
+    {
+      "id": "b937a801-e1a4-5fe7-939c-0b5d3c3f7236",
+      "name": "Respond Accepted",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1850,
+        70
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {
+          "responseCode": 200
+        }
+      }
+    },
+    {
+      "id": "cd20195b-3013-545f-9b29-df38167e5e1f",
+      "name": "Prepare Error Receipt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1580,
+        250
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const payload = $input.first().json;\nreturn [{json:{state:'delivery_failed',retryable:true,reason:'destination_api_error',\n  error_type:payload.error?.name || payload.error?.message || 'http_failure',\n  destination:'local-demo-job-form'}}];"
+      }
+    },
+    {
+      "id": "937d587c-be87-5060-8ad3-6bfb923e4731",
+      "name": "Respond API Failure",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1850,
+        250
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {
+          "responseCode": 502
+        }
+      }
+    },
+    {
+      "id": "f2cdbc6d-db92-5529-9962-12ba884b5392",
+      "name": "Respond Ignored or Review",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1320,
+        440
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {
+          "responseCode": 200
+        }
+      }
+    }
+  ],
+  "connections": {
+    "WAHA Incoming Message": {
+      "main": [
+        [
+          {
+            "node": "Normalize WAHA Payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize WAHA Payload": {
+      "main": [
+        [
+          {
+            "node": "Classify and Extract Job",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Classify and Extract Job": {
+      "main": [
+        [
+          {
+            "node": "Complete Job Details?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Complete Job Details?": {
+      "main": [
+        [
+          {
+            "node": "Submit to Demo Job API",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond Ignored or Review",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Submit to Demo Job API": {
+      "main": [
+        [
+          {
+            "node": "Prepare Submission Receipt",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepare Error Receipt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Submission Receipt": {
+      "main": [
+        [
+          {
+            "node": "Respond Accepted",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Error Receipt": {
+      "main": [
+        [
+          {
+            "node": "Respond API Failure",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveExecutionProgress": true,
+    "saveManualExecutions": true,
+    "saveDataSuccessExecution": "all",
+    "saveDataErrorExecution": "all"
+  },
+  "staticData": null,
+  "pinData": {},
+  "tags": [],
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "description": "Fully runnable local demo. No live WAHA or external API credentials."
+  }
+}
