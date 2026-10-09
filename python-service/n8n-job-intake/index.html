@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Interactive demonstration of real n8n Code-node logic for English and Arabic WhatsApp-format job post intake. Includes importable workflow and reproducible tests.">
+<title>n8n Bilingual Job Intake — Working Code Portfolio</title>
+<style>
+:root{--paper:#f6f4ef;--ink:#1d272b;--muted:#626f75;--line:#ced6d5;--accent:#235b69;--white:#fff;--good:#226a55}*{box-sizing:border-box}
+html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.57}
+a{color:var(--accent)}button,textarea{font:inherit}button{cursor:pointer}
+.shell{max-width:1120px;margin:auto;padding:0 30px}header{display:flex;align-items:center;justify-content:space-between;padding:24px 0;border-bottom:1px solid var(--line)}
+.brand{font-weight:780;letter-spacing:-.06em;font-size:28px;text-decoration:none;color:var(--ink)}.brand span{color:var(--accent);font-size:13px;letter-spacing:0}
+nav{display:flex;gap:22px;align-items:center;font-size:13px}nav a{text-decoration:none;color:var(--ink)}
+.hero{padding:76px 0 58px;display:grid;grid-template-columns:1.5fr 1fr;gap:66px;align-items:end}
+.eyebrow{font-weight:780;color:var(--accent);font-size:11px;letter-spacing:.18em;text-transform:uppercase}
+h1{font-family:Georgia,serif;font-size:clamp(43px,5vw,72px);line-height:1.05;font-weight:400;letter-spacing:-.045em;margin:18px 0 25px}
+.lede{font-size:19px;max-width:680px;color:#3b5057}.hero-aside{border-top:3px solid var(--ink);padding:20px 0}
+.hero-aside h2{font-size:17px;font-weight:650}.hero-aside p{color:var(--muted);font-size:14px}.links{display:flex;flex-wrap:wrap;gap:12px;margin-top:27px}
+.link-primary,.link-secondary{display:inline-flex;gap:8px;align-items:center;padding:11px 16px;text-decoration:none;border-radius:3px;font-size:13px;font-weight:680}
+.link-primary{background:var(--ink);color:white}.link-secondary{border:1px solid #9da9aa;color:var(--ink)}
+.section{border-top:1px solid var(--line);padding:44px 0 56px}.kicker{font-size:11px;letter-spacing:.16em;color:var(--accent);font-weight:790}
+.section h2{font-size:30px;font-family:Georgia,serif;font-weight:400;margin:12px 0 14px}.section>p{color:var(--muted)}
+.flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px;margin-top:30px}.step{padding:19px 13px;background:var(--white);border:1px solid var(--line);min-height:118px}.step strong{font-size:14px;display:block;margin:8px 0}.step small{color:var(--muted);font-size:12px}.n{font-size:12px;color:var(--accent);font-weight:800}
+.demo{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:24px}
+.panel{background:var(--white);border:1px solid var(--line);padding:25px;min-width:0}.panel h3{margin:0 0 10px;font-size:17px}.small{font-size:12px;color:var(--muted)}
+textarea{display:block;resize:vertical;min-height:210px;width:100%;padding:13px;border:1px solid var(--line);background:#fcfcfa;border-radius:2px;margin:12px 0;color:var(--ink);line-height:1.65}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}.actions button{padding:9px 11px;border:1px solid #b8c5c7;color:var(--accent);background:#fff;border-radius:3px;font-weight:650;font-size:12px}.actions .run{background:var(--accent);color:#fff;border-color:var(--accent)}
+pre{white-space:pre-wrap;word-break:break-word;min-height:210px;padding:16px;margin:12px 0;background:#17262d;color:#d8f5e9;border-radius:3px;font-family:"Cascadia Code",Consolas,monospace;font-size:13px;line-height:1.6}
+.status{color:var(--muted);font-size:12px;min-height:18px}.evidence{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:22px}.stat{border-top:2px solid var(--ink);padding-top:14px}.stat strong{display:block;font-size:33px;font-family:Georgia,serif;font-weight:400}.stat small{font-size:12px;color:var(--muted)}
+ul{padding-left:20px}li{padding:3px 0}.note{background:#ebefec;padding:17px 20px;font-size:13px;color:#394b50;border-left:3px solid var(--accent);margin-top:30px}
+footer{border-top:1px solid var(--line);padding:26px 0 42px;display:flex;gap:18px;justify-content:space-between;color:var(--muted);font-size:12px}
+@media(max-width:760px){.shell{padding:0 17px}.hero,.demo{grid-template-columns:1fr;gap:24px}.hero{padding-top:45px}.flow{grid-template-columns:repeat(2,1fr)}.evidence{grid-template-columns:1fr 1fr}nav{gap:10px}header{padding:15px 0}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header><a class="brand" href="../index.html" aria-label="Return to portfolio">MA<span>/01</span></a><nav><a href="../index.html">Python portfolio</a><a href="#test">Try the parser</a><a href="#source">Source</a></nav></header>
+<main>
+<section class="hero">
+<div><p class="eyebrow">Independent project / n8n / JavaScript / Python</p>
+<h1>WhatsApp job posts,<br>structured and routed.</h1>
+<p class="lede">An editable n8n workflow for interpreting English and Arabic job announcements, rejecting unrelated messages, and delivering validated records to a REST API.</p>
+<div class="links"><a class="link-primary" href="workflow_n8n.json" download>Download real n8n workflow ↓</a><a class="link-secondary" href="https://github.com/mrwanahmedx/mrwanahmedx.github.io/tree/main/python-service/n8n-job-intake">Inspect source & tests ↗</a></div></div>
+<aside class="hero-aside"><p class="eyebrow">Evidence level</p><h2>Actual workflow source, not a concept graphic</h2><p>The ten connected n8n nodes are present in the downloadable JSON. The live preview below executes the same Code-node logic in your browser.</p><p><strong>Limitation:</strong> The native n8n server import/webhook run is not yet independently verified. No real WhatsApp account or customer API is connected.</p></aside>
+</section>
+<section class="section" aria-labelledby="architecture-title"><span class="kicker">01 / AUTOMATION</span><h2 id="architecture-title">Ten real n8n nodes. Five functional stages.</h2>
+<div class="flow">
+<div class="step"><span class="n">01</span><strong>Webhook</strong><small>Accepts WAHA-style message events</small></div>
+<div class="step"><span class="n">02</span><strong>Normalize</strong><small>Group, sender and deduplication ID</small></div>
+<div class="step"><span class="n">03</span><strong>Extract</strong><small>Bilingual roles, cities, dates and pay</small></div>
+<div class="step"><span class="n">04</span><strong>Validate</strong><small>Reject non-jobs; review missing fields</small></div>
+<div class="step"><span class="n">05</span><strong>Deliver</strong><small>HTTP API with retry and response branches</small></div>
+</div>
+</section>
+<section class="section" id="test" aria-labelledby="demo-title">
+<span class="kicker">02 / INTERACTIVE SOURCE TEST</span><h2 id="demo-title">Try the actual extraction code.</h2>
+<p>These examples run the JavaScript from the real n8n Code nodes in <code>workflow_n8n.json</code>. They do not send a WhatsApp message or submit a job to a server.</p>
+<div class="demo"><div class="panel"><h3>Incoming group message</h3><p class="small">Paste an English or Arabic example. The preview uses a synthetic group and ID.</p><label for="msg" class="small">Message text</label><textarea id="msg" dir="auto">Hiring a freelance Camera Operator in Dubai for an event on 15/10/2026. Pay AED 800.</textarea>
+<div class="actions"><button id="example-en" type="button">English example</button><button id="example-ar" type="button">مثال بالعربية</button><button id="example-invalid" type="button">Missing city</button><button id="run" type="button" class="run">Extract job →</button></div></div>
+<div class="panel"><h3>Structured JSON result</h3><p class="small">Generated from the embedded source, not a hardcoded output screenshot.</p><pre id="output" aria-live="polite">Loading workflow source...</pre><div class="status" id="status">Checking local source...</div></div></div>
+<div class="note">This interactive parser is a static website preview. The separate local Python API includes SQLite idempotency, simulated failures and retry tests, but API delivery and n8n production webhook execution are <strong>not</strong> running in this browser.</div>
+</section>
+<section class="section" id="source">
+<span class="kicker">03 / REPRODUCIBLE PROOF</span><h2>Inspect the work, run the tests.</h2>
+<div class="evidence"><div class="stat"><strong>10</strong><small>Connected n8n node definitions in the workflow JSON</small></div><div class="stat"><strong>50 / 50</strong><small>Synthetic offline Code-node test cases passed</small></div><div class="stat"><strong>4 / 4</strong><small>Local Python HTTP/SQLite API checks passed</small></div></div>
+<div class="links">
+<a class="link-secondary" href="verify_50_synthetic.js">50-case test runner ↗</a>
+<a class="link-secondary" href="evidence/synthetic_50_code_node_results.json">Test evidence ↗</a>
+<a class="link-secondary" href="demo_api.py">Local API source ↗</a>
+<a class="link-secondary" href="README.md">Runbook ↗</a>
+</div>
+<p class="small">The tests are self-directed and synthetic. No client testimonials, paid n8n integrations, LLM extraction or 24/7 hosting are claimed.</p>
+</section>
+</main>
+<footer><span>SELF-DIRECTED PORTFOLIO PROJECT · OCTOBER 2026</span><span><a href="../index.html">← All case studies</a></span></footer>
+</div>
+<script>
+(function(){
+  "use strict";
+  var parse=null,normalize=null;
+  var message=document.getElementById("msg"), output=document.getElementById("output");
+  var state=document.getElementById("status");
+  var examples={
+    en:"Hiring a freelance Camera Operator in Dubai for an event on 15/10/2026. Pay AED 800.",
+    ar:"مطلوب مونتير في الشارقة يوم 16/10/2026، الأجر 700 درهم.",
+    invalid:"Hiring a Video Editor for a production shoot next week. Please apply."
+  };
+  async function init(){
+    try{
+      var res=await fetch("workflow_n8n.json",{cache:"no-cache"});
+      if(!res.ok)throw new Error("Unable to load workflow JSON");
+      var wf=await res.json();
+      var a=wf.nodes.find(function(n){return n.name==="Normalize WAHA Payload"});
+      var b=wf.nodes.find(function(n){return n.name==="Classify and Extract Job"});
+      if(!a||!b)throw new Error("Expected n8n Code nodes not found");
+      normalize=new Function("$input",a.parameters.jsCode);
+      parse=new Function("$input",b.parameters.jsCode);
+      state.textContent="Ready · Loaded real source from workflow_n8n.json";
+      run();
+    }catch(e){output.textContent="The workflow source could not be loaded.";state.textContent=e.message;}
+  }
+  function run(){
+    if(!parse||!normalize){return;}
+    try{
+      var envelope={event:"message",session:"public-demo",payload:{
+        id:"preview-0001",from:"120399999999@g.us",fromMe:false,body:message.value
+      }};
+      var normalized=normalize({first:function(){return {json:{body:envelope}};}})[0].json;
+      var data=parse({first:function(){return {json:normalized};}})[0].json;
+      output.textContent=JSON.stringify(data,null,2);
+      state.textContent=data.state==="ready"?"Valid job record · API submission disabled in browser":data.state==="needs_review"?"Review required · Missing fields":"Ignored · Not a supported job post";
+    }catch(e){output.textContent=String(e);state.textContent="Parsing failed; inspect source.";}
+  }
+  document.getElementById("example-en").addEventListener("click",function(){message.value=examples.en;run();});
+  document.getElementById("example-ar").addEventListener("click",function(){message.value=examples.ar;run();});
+  document.getElementById("example-invalid").addEventListener("click",function(){message.value=examples.invalid;run();});
+  document.getElementById("run").addEventListener("click",run);
+  init();
+})();
+</script>
+</body>
+</html>
