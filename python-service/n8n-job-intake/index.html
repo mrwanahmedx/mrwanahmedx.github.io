@@ -105,7 +105,7 @@ footer{border-top:1px solid var(--line);padding:26px 0 42px;display:flex;gap:18p
     if(!parse||!normalize){return;}
     try{
       var envelope={event:"message",session:"public-demo",payload:{
-        id:"preview-0001",from:"120399999999@g.us",fromMe:false,body:message.value
+        id:"preview-0001",from:"120300011122@g.us",fromMe:false,body:message.value
       }};
       var normalized=normalize({first:function(){return {json:{body:envelope}};}})[0].json;
       var data=parse({first:function(){return {json:normalized};}})[0].json;
