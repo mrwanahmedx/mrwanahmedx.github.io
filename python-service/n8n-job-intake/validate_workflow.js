@@ -19,7 +19,7 @@ assert.equal(edges,9); // normalize, extract, 2 IF, 2 request, receipt/error and
 const func=n=>new Function('$input',nameMap[n].parameters.jsCode);
 const normalize=func('Normalize WAHA Payload');
 const classify=func('Classify and Extract Job');
-const payload=(id,text,chat='123456@g.us',more={})=>({body:{
+const payload=(id,text,chat='120300011122@g.us',more={})=>({body:{
  event:'message',session:'demo',payload:{id,from:chat,fromMe:false,body:text,...more}}});
 function run(v){
  const n=normalize({first:()=>({json:v})})[0].json;
@@ -40,7 +40,8 @@ assert.equal(run(a).result.job.city,'Sharjah');
 assert.equal(run(payload('bad1','Just checking lunch in Dubai')).result.state,'ignored');
 assert.equal(run(payload('bad2','Hiring a Video Editor next week')).result.state,'needs_review');
 assert.equal(run(payload('bad3','Hiring a Camera Operator in Dubai','private@c.us')).result.reason,'not_group_message');
-assert.equal(run(payload('bad4','Hiring a Camera Operator in Dubai','123@g.us',{fromMe:true})).result.reason,'own_message');
+assert.equal(run(payload('bad4','Hiring a Camera Operator in Dubai','120300011122@g.us',{fromMe:true})).result.reason,'own_message');
+assert.equal(run(payload('bad5','Hiring a Camera Operator in Dubai','other-demo@g.us')).result.reason,'group_not_allowlisted');
 const ret=run(payload('retry','Hiring a Production Assistant in Abu Dhabi. AED 500.',undefined,{test_retry:true}));
 assert.equal(ret.result.state,'ready');assert.equal(ret.result.job.test_retry,true);
 console.log('NODE_CODE_TESTS_PASS: 10 structural nodes; '+edges+' graph edges; English & Arabic extraction; idempotent ID; group-only filtering; missing fields; demo transient retry flag.');
