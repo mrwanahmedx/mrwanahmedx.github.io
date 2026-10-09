@@ -27,7 +27,7 @@ h1{font-family:Georgia,serif;font-size:clamp(43px,5vw,72px);line-height:1.05;fon
 textarea{display:block;resize:vertical;min-height:210px;width:100%;padding:13px;border:1px solid var(--line);background:#fcfcfa;border-radius:2px;margin:12px 0;color:var(--ink);line-height:1.65}
 .actions{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}.actions button{padding:9px 11px;border:1px solid #b8c5c7;color:var(--accent);background:#fff;border-radius:3px;font-weight:650;font-size:12px}.actions .run{background:var(--accent);color:#fff;border-color:var(--accent)}
 pre{white-space:pre-wrap;word-break:break-word;min-height:210px;padding:16px;margin:12px 0;background:#17262d;color:#d8f5e9;border-radius:3px;font-family:"Cascadia Code",Consolas,monospace;font-size:13px;line-height:1.6}
-.status{color:var(--muted);font-size:12px;min-height:18px}.evidence{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:22px}.stat{border-top:2px solid var(--ink);padding-top:14px}.stat strong{display:block;font-size:33px;font-family:Georgia,serif;font-weight:400}.stat small{font-size:12px;color:var(--muted)}
+.status{color:var(--muted);font-size:12px;min-height:18px}.evidence{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:22px}.stat{border-top:2px solid var(--ink);padding-top:14px}.stat strong{display:block;font-size:33px;font-family:Georgia,serif;font-weight:400}.stat small{font-size:12px;color:var(--muted)}
 ul{padding-left:20px}li{padding:3px 0}.note{background:#ebefec;padding:17px 20px;font-size:13px;color:#394b50;border-left:3px solid var(--accent);margin-top:30px}
 footer{border-top:1px solid var(--line);padding:26px 0 42px;display:flex;gap:18px;justify-content:space-between;color:var(--muted);font-size:12px}
 @media(max-width:760px){.shell{padding:0 17px}.hero,.demo{grid-template-columns:1fr;gap:24px}.hero{padding-top:45px}.flow{grid-template-columns:repeat(2,1fr)}.evidence{grid-template-columns:1fr 1fr}nav{gap:10px}header{padding:15px 0}}
@@ -63,9 +63,10 @@ footer{border-top:1px solid var(--line);padding:26px 0 42px;display:flex;gap:18p
 </section>
 <section class="section" id="source">
 <span class="kicker">03 / REPRODUCIBLE PROOF</span><h2>Inspect the work, run the tests.</h2>
-<div class="evidence"><div class="stat"><strong>10</strong><small>Connected n8n node definitions in the workflow JSON</small></div><div class="stat"><strong>50 / 50</strong><small>Synthetic offline Code-node test cases passed</small></div><div class="stat"><strong>4 / 4</strong><small>Local Python HTTP/SQLite API checks passed</small></div></div>
+<div class="evidence"><div class="stat"><strong>10</strong><small>Connected n8n node definitions in the workflow JSON</small></div><div class="stat"><strong>50 / 50</strong><small>Synthetic offline Code-node test cases passed</small></div><div class="stat"><strong>4 / 4</strong><small>Local Python HTTP/SQLite API checks passed</small></div><div class="stat"><strong>4 / 4</strong><small>Hosted interactive code-preview checks passed</small></div></div>
 <div class="links">
 <a class="link-secondary" href="verify_50_synthetic.js">50-case test runner ↗</a>
+<a class="link-secondary" href="test_public_interactive.js">Live-page verification source ↗</a>
 <a class="link-secondary" href="evidence/synthetic_50_code_node_results.json">Test evidence ↗</a>
 <a class="link-secondary" href="demo_api.py">Local API source ↗</a>
 <a class="link-secondary" href="README.md">Runbook ↗</a>
