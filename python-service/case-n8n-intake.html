@@ -24,7 +24,7 @@ footer{display:flex;justify-content:space-between;gap:20px;border-top:1px solid 
 <div class="fact"><div class="label">Input</div><div>Synthetic WhatsApp-group event objects shaped like WAHA webhooks, including message IDs, group identities and free-form text.</div></div>
 <div class="fact"><div class="label">Flow</div><div>Webhook → normalize → parse → validate → conditional HTTP request → response. Non-jobs and private messages are ignored; incomplete jobs require review.</div></div>
 <div class="fact"><div class="label">Backend</div><div>A separate local Python REST service persists accepted jobs into SQLite and detects duplicate external IDs. It can simulate HTTP 503 responses for retry tests.</div></div>
-<div class="fact"><div class="label">Status</div><div>Self-directed source prototype, not a client deployment. Actual WAHA account, LLM model, client API and native n8n webhook end-to-end run are not yet connected or verified.</div></div></div>
+<div class="fact"><div class="label">Status</div><div>Self-directed source prototype, not a client deployment. All seven real n8n webhook-to-local-API tests passed using synthetic messages. Real WAHA/WhatsApp, a customer API, an LLM and production hosting are not connected.</div></div></div>
 <div class="card"><div class="tag">Observed offline extraction examples</div>
 <table><thead><tr><th>Message</th><th>Verified embedded-code result</th></tr></thead><tbody>
 <tr><td>Hiring Camera Operator in Dubai. AED 800.</td><td><code>ready · Camera Operator · Dubai · AED 800</code></td></tr>
@@ -33,17 +33,17 @@ footer{display:flex;justify-content:space-between;gap:20px;border-top:1px solid 
 <tr><td lang="ar">صباح الخير للجميع</td><td><code>ignored · non_job_message</code></td></tr>
 </tbody></table><p>These outputs are from JavaScript evaluated from the actual n8n Code nodes, not evidence of live WhatsApp processing.</p></div>
 </section>
-<aside><div class="tag">OFFLINE VERIFIED · OCT 2026</div><div class="score">50 / 50</div><div class="sub">Synthetic extraction cases · not native n8n E2E</div>
+<aside><div class="tag">NATIVE N8N VERIFIED · OCT 2026</div><div class="score">7 / 7</div><div class="sub">Native webhook-to-test-API cases passed, with synthetic inputs</div><p>Separately: 50/50 offline Arabic and English parser cases passed.</p>
 <div class="card"><div class="tag">Real source, not a mockup</div>
 <p><a href="n8n-job-intake/workflow_n8n.json">View importable n8n workflow JSON ↗</a></p>
 <p><a href="n8n-job-intake/validate_workflow.js">Inspect Code-node tests ↗</a></p>
 <p><a href="n8n-job-intake/demo_api.py">Inspect local REST + SQLite API ↗</a></p>
 <p><a href="n8n-job-intake/test_workflow.py">Inspect seven native-webhook test cases ↗</a></p>
-<p><a href="n8n-job-intake/README.md">Setup and precise verification limits ↗</a></p>
+<p><a href="n8n-job-intake/README.md">Setup and precise verification limits ↗</a></p><p><a href="n8n-job-intake/evidence/NATIVE_E2E_VERIFIED.md">Verified native 7/7 integration evidence ↗</a></p>
 </div>
 <div class="card"><div class="tag">Working vs pending</div>
 <p><strong>Verified:</strong> real 10-node JSON with 9 connections; offline Arabic/English extraction; local API test suite and SQLite persistence.</p>
-<p><strong>Pending:</strong> successful native workflow import and all seven HTTP webhook tests; approved WAHA session; a real client form; LLM structured output; 24/7 deployment.</p></div>
+<p><strong>Pending:</strong> approved WAHA/WhatsApp integration; a real client form API; LLM structured extraction; production 24/7 deployment.</p></div>
 <div class="card"><div class="tag">Client adaptation</div><p>Add documented WAHA credentials, group allowlist, secure webhook authentication, the buyer's exact form schema, structured-output LLM and an error/review queue. No credentials are embedded in this example.</p></div>
 </aside></main>
 <footer><span>SELF-DIRECTED PROTOTYPE · SYNTHETIC INPUTS · NO CLIENT CLAIMS</span><a href="index.html">← Return to technical portfolio</a></footer>
