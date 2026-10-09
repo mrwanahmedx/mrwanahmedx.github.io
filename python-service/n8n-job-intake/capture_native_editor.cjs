@@ -56,6 +56,16 @@ const { chromium } = require('playwright-core');
     const count=await nodes.count();
     console.log('NATIVE_EDITOR_NODES',count);
     if(count!==10)throw Error('Expected 10 actual nodes, got '+count);
+    // Dismiss n8n's optional first-run checklist so the diagram is not obscured.
+    const title=page.getByText('Production Checklist',{exact:true});
+    if(await title.count()) {
+      const header=title.first().locator('..');
+      const candidates=header.locator('button');
+      const n=await candidates.count();
+      console.log('PRODUCTION_CHECKLIST_CLOSE_CANDIDATES',n);
+      if(n) await candidates.last().click({timeout:3000}).catch(()=>{});
+    }
+    await page.waitForTimeout(600);
     await page.screenshot({path:path.join(out,'authentic_n8n_editor_10_nodes.png'),animations:'disabled',fullPage:false});
     const evidence={kind:'genuine_n8n_editor_screenshot',n8n_version:'2.42.6',node_count:count,
        generated_at_utc:new Date().toISOString(),isolated_test_environment:true,
