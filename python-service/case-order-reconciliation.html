@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python Order & Payment Reconciliation — Tested Portfolio Demo</title>
+<meta name="description" content="Independent Python demonstration reconciling synthetic orders and payments, preserving rejected rows, and exporting real Excel reports.">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f3f0e8;color:#19211d;font-family:Arial,Helvetica,sans-serif}
+.wrap{max-width:1200px;margin:auto;padding:34px 5vw 42px}header{display:flex;justify-content:space-between;align-items:center;gap:20px;border-bottom:1px solid #c9c9bb;padding-bottom:22px;font-size:13px;letter-spacing:1.3px;font-weight:700}
+.brand{font-size:23px;letter-spacing:-1px}.brand span{color:#d85030;font-size:13px}.tag,.label{font-size:13px;color:#b74630;letter-spacing:1.4px;font-weight:700;text-transform:uppercase}
+main{display:grid;grid-template-columns:1.3fr .7fr;gap:8%;padding:58px 0 65px}
+h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(40px,5.1vw,68px);font-weight:400;line-height:1.04;letter-spacing:-2px;margin:18px 0 26px}
+.lead{font-size:22px;line-height:1.52;color:#3e4a43;max-width:720px}.facts{border-top:2px solid #29372d;margin-top:35px;padding-top:18px}
+.fact{display:grid;grid-template-columns:100px 1fr;gap:20px;padding:14px 0;border-bottom:1px solid #dbd9cf;line-height:1.5;font-size:17px}
+.score{font:normal 82px Georgia,serif;margin:17px 0 2px}.sub{font-size:13px;letter-spacing:1.3px;text-transform:uppercase;color:#6b726c}
+.card{border-top:2px solid #28352b;margin-top:32px;padding-top:16px;line-height:1.7}
+table{width:100%;border-collapse:collapse;font-size:14px;margin:22px 0}td,th{padding:12px 8px;border-bottom:1px solid #ccc9be;text-align:left}th{color:#8c402b}
+a{color:#ab4029;text-underline-offset:4px}a:focus-visible{outline:3px solid #d85030;outline-offset:4px}
+footer{display:flex;justify-content:space-between;gap:20px;border-top:1px solid #c9c9bb;padding-top:22px;color:#555f58;font-size:12px;letter-spacing:.06em}
+@media(max-width:760px){.wrap{padding:18px 6vw 26px}header{flex-wrap:wrap}main{display:block;padding:36px 0}.lead{font-size:19px}.fact{grid-template-columns:82px 1fr}.score{font-size:62px}footer{display:block}h1{letter-spacing:-1px}}
+</style></head><body>
+<div class="wrap"><header><div class="brand">MA<span>/01</span></div><div>PYTHON WORKFLOW PORTFOLIO / CASE D</div></header>
+<main><section><div class="tag">ORDER OPERATIONS · RECONCILIATION · EXCEL</div>
+<h1>Two exports.<br>One auditable answer.</h1>
+<p class="lead">A synthetic order-and-payment workflow that identifies missing settlements, amount differences, repeated IDs, and malformed inputs—without hiding exceptions.</p>
+<div class="facts">
+<div class="fact"><div class="label">Problem</div><div>Orders and payment exports require matching by ID; duplicates and invalid rows would otherwise distort a simple join.</div></div>
+<div class="fact"><div class="label">Solution</div><div>Exact decimal comparisons, input validation, explicit exception categories and separate audit outputs.</div></div>
+<div class="fact"><div class="label">Result</div><div>The sample produces two matches, five exception IDs, one excluded pending order and two rejected input rows.</div></div>
+<div class="fact"><div class="label">Scope</div><div>Original demonstration using invented e-commerce data, not paid work or production financial controls.</div></div></div>
+<div class="card"><div class="tag">Sample exceptions</div>
+<table><thead><tr><th>Order</th><th>Expected</th><th>Received</th><th>Flag</th></tr></thead>
+<tbody><tr><td>O-1001</td><td>125.00</td><td>—</td><td>Duplicate payment</td></tr>
+<tr><td>O-1002</td><td>59.90</td><td>58.90</td><td>Amount mismatch</td></tr>
+<tr><td>O-1003</td><td>74.50</td><td>—</td><td>Missing payment</td></tr>
+<tr><td>O-9999</td><td>—</td><td>10.00</td><td>Orphan payment</td></tr></tbody></table>
+</div></section><aside>
+<div class="tag">VERIFIED LOCALLY</div><div class="score">8 / 8</div><div class="sub">Automated tests passing · Python 3.12</div>
+<div class="card"><div class="tag">Files generated</div><p>Five-tab Excel report: Overview, Matches, Exceptions, Pending, Rejected Rows. Three CSV exports and a JSON summary.</p></div>
+<div class="card"><div class="tag">Inspectable implementation</div><p><a href="https://github.com/mrwanahmedx/mrwanahmedx.github.io/tree/main/python-service/order-reconciliation">Source, tests and synthetic inputs ↗</a></p>
+<p>Run locally with Python and openpyxl. No credentials, web scraping, private client data or hosted application.</p></div>
+<div class="card"><div class="tag">Client fit</div><p>Small reconciliation/validation tools for order exports, settlement files and internal operations. Business rules for refunds, partial payments or currencies must be scoped separately.</p></div>
+</aside></main><footer><span>SELF-DIRECTED DEMONSTRATION · INVENTED DATA · OCTOBER 2026</span><a href="index.html">← Return to technical portfolio</a></footer>
+</div></body></html>
