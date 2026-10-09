@@ -1,5 +1,5 @@
 name: n8n Job Intake - Native Integration Tests
-# Capture revision: close the optional n8n checklist
+# Capture revision: hide checklist card without modifying node canvas
 
 on:
   push:
