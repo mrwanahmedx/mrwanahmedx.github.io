@@ -25,7 +25,7 @@ const { chromium } = require('playwright-core');
       password:'LocalRunnerOnly!2026-Strong'
     };
     const api = await context.request.post(base+'/rest/owner/setup', {data:login, timeout:15000});
-    console.log('OWNER_SETUP',api.status(),(await api.text()).slice(0,180).replace(/"token"\s*:\s*"[^"]+"/g,'"token":"[redacted]"'));
+    console.log('OWNER_SETUP_HTTP_STATUS',api.status());
     await page.goto(base+'/workflow/portWAHAjobdemo1', {waitUntil:'domcontentloaded',timeout:30000});
     await page.waitForTimeout(5000);
     // Handle first-run login if REST setup returned a logged-out state.
