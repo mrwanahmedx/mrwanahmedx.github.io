@@ -86,6 +86,7 @@ jobs:
             -e N8N_DIAGNOSTICS_ENABLED=false \
             -e N8N_RUNNERS_ENABLED=true \
             -e N8N_RUNNERS_MODE=internal \
+            -e N8N_RUNNERS_BROKER_PORT=5680 \
             -e N8N_SECURE_COOKIE=false \
             -v "$RUNNER_TEMP/n8n-data:/home/node/.n8n" \
             n8nio/n8n:2.42.6 start
