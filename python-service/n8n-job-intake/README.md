@@ -72,3 +72,12 @@ Self-directed demonstration project, not a paid client delivery.
 ## Offline 50-message evidence
 
 The embedded n8n Code-node JavaScript was evaluated against 50 original synthetic English/Arabic/negative/incomplete messages. All 50 passed after fixes to Arabic-Indic digits, salary shorthand (for example 2k/day), and a false-positive non-job example. This is offline Code-node evaluation, NOT native n8n webhook execution or production accuracy. See evidence/synthetic_50_code_node_results.json and portfolio_assets/verified_examples.md. The workflow architecture SVG is automatically generated from the actual node graph, not an n8n editor screenshot.
+
+## Published portfolio demo and verification
+
+- [Live interactive source demo](https://mrwanahmedx.github.io/python-service/n8n-job-intake/)
+- [Importable ten-node n8n JSON](workflow_n8n.json)
+- [Browser preview verification script](test_public_interactive.js): four checks pass for English, Arabic, missing city and reset to English using the live hosted page and workflow JSON.
+- [50-case offline Code-node test evidence](evidence/synthetic_50_code_node_results.json)
+
+**Important:** The 4/4 browser test runs the real extracted Code-node functions from the published workflow. It does not execute n8n's webhook or HTTP Request nodes. A native n8n end-to-end run and live WAHA/LLM integration have not been completed.
