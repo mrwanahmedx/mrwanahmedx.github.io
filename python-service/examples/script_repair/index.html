@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Python Sales Report Repair | Code & Tests</title><style>
+*{box-sizing:border-box}body{margin:0;background:#f3f0e8;color:#1c2520;font-family:Arial,Helvetica,sans-serif}
+header{padding:26px 6%;border-bottom:1px solid #bfc3b9;display:flex;justify-content:space-between;gap:20px;align-items:center}
+a{color:#c45136;text-underline-offset:3px}a:hover{color:#6f2d1c}
+main{width:min(1100px,89vw);margin:65px auto}h1{font:normal clamp(35px,5vw,63px)/1.05 Georgia,serif;letter-spacing:-1.5px;margin:15px 0 28px}
+.kicker,.meta{font-size:13px;text-transform:uppercase;letter-spacing:1.6px;color:#c45136;font-weight:bold}
+.intro{font-size:20px;line-height:1.5;max-width:850px}
+.notice{border-left:3px solid #c45136;padding:10px 20px;margin:28px 0 46px;line-height:1.6;background:#eae6dc}
+.file{margin:40px 0 50px;border-top:1px solid #bfc3b9;padding-top:20px}
+.file h2{font-size:20px;margin-bottom:14px}
+pre{font-size:13px;line-height:1.5;background:#19231e;color:#edf0e9;padding:24px;overflow:auto;white-space:pre;max-height:580px;border-radius:5px}
+footer{padding:25px 6%;border-top:1px solid #bfc3b9;color:#657068}
+nav{display:flex;gap:18px;flex-wrap:wrap}
+</style></head>
+<body><header><strong>MA / PYTHON PROOF</strong><nav><a href="../../index.html">Overview</a><a href="../../case-script-repair.html">Case study</a></nav></header>
+<main><p class="kicker">SCRIPT REPAIR / CASE A</p><h1>Python Sales Report Repair — inspect the code.</h1>
+<p class="intro">A self-initiated technical demonstration, built with public, controlled or synthetic data. The example includes source code, sample outputs and local automated tests.</p>
+<div class="notice"><strong>3 automated tests passing in the local portfolio test suite.</strong> Results were independently rerun in the development environment on October 9, 2026. They are not a certification, security audit or paid-client endorsement.</div>
+<section class="file"><h2>README.md</h2><pre><code># Demonstration A — Python Script Repair
+
+## Problem
+
+A small sales-report script stopped on real-world currency values such as `$1,250.00`. It also counted duplicate order exports and had no useful exception log.
+
+## Reproduce the failure
+
+```powershell
+python reproduce_error.py
+```
+
+The original script raises a `ValueError` while converting a formatted currency string.
+
+## Run the repaired workflow
+
+```powershell
+python repaired_sales_report.py sample_input/orders.csv -o output
+```
+
+## Evidence
+
+```powershell
+python -m unittest discover -s tests -v
+```
+
+The repaired implementation:
+
+- normalizes currency safely with `Decimal`;
+- ignores refunded rows;
+- deduplicates repeated order IDs;
+- records invalid amounts instead of crashing;
+- writes a customer summary and exception log;
+- includes regression tests for the failure that originally stopped the script.
+
+## Business value
+
+The client gets a repeatable report instead of a one-off patch, plus a clear list of rows that still need human review.
+
+</code></pre></section><section class="file"><h2>broken_sales_report.py</h2><pre><code>from __future__ import annotations
+
+import csv
+from collections import defaultdict
+from pathlib import Path
+
+
+def build_summary(input_csv: Path) -&gt; dict[str, float]:
+    totals: dict[str, float] = defaultdict(float)
+    with input_csv.open(newline=&quot;&quot;, encoding=&quot;utf-8-sig&quot;) as handle:
+        for row in csv.DictReader(handle):
+            if row[&quot;status&quot;].lower() == &quot;refunded&quot;:
+                continue
+            totals[row[&quot;customer&quot;]] += float(row[&quot;amount&quot;])
+    return dict(totals)
+
+</code></pre></section><section class="file"><h2>repaired_sales_report.py</h2><pre><code>from __future__ import annotations
+
+import argparse
+import csv
+from collections import defaultdict
+from decimal import Decimal, InvalidOperation
+from pathlib import Path
+
+
+ACCEPTED_STATUSES = {&quot;paid&quot;, &quot;completed&quot;}
+
+
+def parse_amount(raw: str) -&gt; Decimal:
+    cleaned = raw.strip().replace(&quot;$&quot;, &quot;&quot;).replace(&quot;,&quot;, &quot;&quot;)
+    if not cleaned:
+        raise ValueError(&quot;amount is empty&quot;)
+    try:
+        return Decimal(cleaned).quantize(Decimal(&quot;0.01&quot;))
+    except InvalidOperation as exc:
+        raise ValueError(f&quot;invalid amount: {raw!r}&quot;) from exc
+
+
+def process_orders(input_csv: Path) -&gt; tuple[list[dict[str, str]], list[dict[str, str]]]:
+    totals: dict[str, Decimal] = defaultdict(lambda: Decimal(&quot;0.00&quot;))
+    seen_order_ids: set[str] = set()
+    errors: list[dict[str, str]] = []
+
+    with input_csv.open(newline=&quot;&quot;, encoding=&quot;utf-8-sig&quot;) as handle:
+        reader = csv.DictReader(handle)
+        required = {&quot;order_id&quot;, &quot;customer&quot;, &quot;amount&quot;, &quot;status&quot;}
+        missing = required.difference(reader.fieldnames or [])
+        if missing:
+            raise ValueError(f&quot;missing columns: {&#x27;, &#x27;.join(sorted(missing))}&quot;)
+
+        for line_number, row in enumerate(reader, start=2):
+            order_id = row[&quot;order_id&quot;].strip()
+            customer = &quot; &quot;.join(row[&quot;customer&quot;].split())
+            status = row[&quot;status&quot;].strip().lower()
+
+            if not order_id or not customer:
+                errors.append({&quot;line&quot;: str(line_number), &quot;order_id&quot;: order_id, &quot;issue&quot;: &quot;missing order ID or customer&quot;})
+                continue
+            if status not in ACCEPTED_STATUSES:
+                continue
+            if order_id in seen_order_ids:
+                errors.append({&quot;line&quot;: str(line_number), &quot;order_id&quot;: order_id, &quot;issue&quot;: &quot;duplicate order ignored&quot;})
+                continue
+
+            try:
+                amount = parse_amount(row[&quot;amount&quot;])
+            except ValueError as exc:
+                errors.append({&quot;line&quot;: str(line_number), &quot;order_id&quot;: order_id, &quot;issue&quot;: str(exc)})
+                continue
+
+            seen_order_ids.add(order_id)
+            totals[customer] += amount
+
+    summary = [
+        {&quot;customer&quot;: customer, &quot;paid_total&quot;: f&quot;{amount:.2f}&quot;}
+        for customer, amount in sorted(totals.items())
+    ]
+    return summary, errors
+
+
+def write_outputs(summary: list[dict[str, str]], errors: list[dict[str, str]], output_dir: Path) -&gt; None:
+    output_dir.mkdir(parents=True, exist_ok=True)
+    with (output_dir / &quot;customer_summary.csv&quot;).open(&quot;w&quot;, newline=&quot;&quot;, encoding=&quot;utf-8-sig&quot;) as handle:
+        writer = csv.DictWriter(handle, fieldnames=[&quot;customer&quot;, &quot;paid_total&quot;])
+        writer.writeheader()
+        writer.writerows(summary)
+    with (output_dir / &quot;exceptions.csv&quot;).open(&quot;w&quot;, newline=&quot;&quot;, encoding=&quot;utf-8-sig&quot;) as handle:
+        writer = csv.DictWriter(handle, fieldnames=[&quot;line&quot;, &quot;order_id&quot;, &quot;issue&quot;])
+        writer.writeheader()
+        writer.writerows(errors)
+
+
+def main() -&gt; None:
+    parser = argparse.ArgumentParser(description=&quot;Build a validated customer sales summary.&quot;)
+    parser.add_argument(&quot;input_csv&quot;, type=Path)
+    parser.add_argument(&quot;-o&quot;, &quot;--output-dir&quot;, type=Path, default=Path(&quot;output&quot;))
+    args = parser.parse_args()
+    summary, errors = process_orders(args.input_csv)
+    write_outputs(summary, errors, args.output_dir)
+    print(f&quot;Customers summarized: {len(summary)}&quot;)
+    print(f&quot;Exceptions logged: {len(errors)}&quot;)
+
+
+if __name__ == &quot;__main__&quot;:
+    main()
+
+</code></pre></section><section class="file"><h2>reproduce_error.py</h2><pre><code>from pathlib import Path
+
+from broken_sales_report import build_summary
+
+
+if __name__ == &quot;__main__&quot;:
+    source = Path(__file__).parent / &quot;sample_input&quot; / &quot;orders.csv&quot;
+    print(&quot;Running the original script against a realistic export...&quot;)
+    print(build_summary(source))
+
+</code></pre></section><section class="file"><h2>tests/test_sales_report.py</h2><pre><code>from __future__ import annotations
+
+import csv
+import tempfile
+import unittest
+from pathlib import Path
+
+from repaired_sales_report import parse_amount, process_orders, write_outputs
+
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+class SalesReportTests(unittest.TestCase):
+    def test_currency_normalization(self) -&gt; None:
+        self.assertEqual(str(parse_amount(&quot;$1,250.00&quot;)), &quot;1250.00&quot;)
+
+    def test_summary_deduplicates_and_logs_bad_rows(self) -&gt; None:
+        summary, errors = process_orders(ROOT / &quot;sample_input&quot; / &quot;orders.csv&quot;)
+        self.assertEqual(
+            summary,
+            [
+                {&quot;customer&quot;: &quot;Acme Studio&quot;, &quot;paid_total&quot;: &quot;1250.00&quot;},
+                {&quot;customer&quot;: &quot;BrightCo&quot;, &quot;paid_total&quot;: &quot;800.50&quot;},
+                {&quot;customer&quot;: &quot;North &amp; Pine&quot;, &quot;paid_total&quot;: &quot;175.00&quot;},
+            ],
+        )
+        self.assertEqual(len(errors), 2)
+        self.assertIn(&quot;duplicate&quot;, errors[0][&quot;issue&quot;])
+        self.assertIn(&quot;invalid amount&quot;, errors[1][&quot;issue&quot;])
+
+    def test_outputs_are_written(self) -&gt; None:
+        summary, errors = process_orders(ROOT / &quot;sample_input&quot; / &quot;orders.csv&quot;)
+        with tempfile.TemporaryDirectory() as temp_dir:
+            destination = Path(temp_dir)
+            write_outputs(summary, errors, destination)
+            with (destination / &quot;customer_summary.csv&quot;).open(encoding=&quot;utf-8-sig&quot;) as handle:
+                rows = list(csv.DictReader(handle))
+            self.assertEqual(len(rows), 3)
+            self.assertTrue((destination / &quot;exceptions.csv&quot;).exists())
+
+
+if __name__ == &quot;__main__&quot;:
+    unittest.main()
+
+</code></pre></section><section class="file"><h2>output/customer_summary.csv</h2><pre><code>﻿customer,paid_total
+Acme Studio,1250.00
+BrightCo,800.50
+North &amp; Pine,175.00
+</code></pre></section><section class="file"><h2>output/exceptions.csv</h2><pre><code>﻿line,order_id,issue
+4,1002,duplicate order ignored
+7,1005,invalid amount: &#x27;not_available&#x27;
+</code></pre></section><section class="file"><h2>sample_input/orders.csv</h2><pre><code>order_id,customer,amount,status
+1001,Acme Studio,&quot;$1,250.00&quot;,PAID
+1002,BrightCo,800.50,paid
+1002,BrightCo,800.50,paid
+1003,Acme Studio,99.99,REFUNDED
+1004,North &amp; Pine,175,completed
+1005,North &amp; Pine,not_available,paid
+
+</code></pre></section>
+</main><footer>Demonstration only · Source files are also supplied with the local delivery package</footer></body></html>
