@@ -152,6 +152,16 @@ jobs:
           sleep 15
           python3 python-service/n8n-job-intake/test_workflow.py | tee /tmp/native_e2e.log
 
+      - name: Capture genuine n8n workflow editor in headless Chrome
+        if: success()
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/n8n-ci-evidence
+          npm install --prefix /tmp/n8n-editor-visual --no-audit --no-fund playwright-core@1.56.1
+          NODE_PATH=/tmp/n8n-editor-visual/node_modules node python-service/n8n-job-intake/capture_native_editor.cjs
+
       - name: Preserve native test results and logs
         if: always()
         shell: bash
