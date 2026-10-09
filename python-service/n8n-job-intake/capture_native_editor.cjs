@@ -64,6 +64,12 @@ const { chromium } = require('playwright-core');
       const n=await candidates.count();
       console.log('PRODUCTION_CHECKLIST_CLOSE_CANDIDATES',n);
       if(n) await candidates.last().click({timeout:3000}).catch(()=>{});
+      if(await title.first().isVisible().catch(()=>false)) {
+        // Reproducible screenshot viewport 1760x1000: first-run panel's X control.
+        await page.mouse.click(364, 97);
+        await page.waitForTimeout(400);
+      }
+      console.log('CHECKLIST_VISIBLE_AT_CAPTURE',await title.first().isVisible().catch(()=>false));
     }
     await page.waitForTimeout(600);
     await page.screenshot({path:path.join(out,'authentic_n8n_editor_10_nodes.png'),animations:'disabled',fullPage:false});
