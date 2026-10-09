@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Python workflow repair, API integration, and compliant data extraction by Marwan Ahmed.">
+  <title>Marwan Ahmed — Python Workflow Repair</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="wordmark" href="#top" aria-label="Marwan Ahmed home">MA<span>/01</span></a>
+    <nav aria-label="Main navigation">
+      <a href="#services">Services</a>
+      <a href="#proof">Proof</a>
+      <a href="#process">Process</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <p class="eyebrow">PYTHON WORKFLOW REPAIR · API INTEGRATION · DATA EXTRACTION</p>
+      <h1 id="hero-title">Small broken workflows,<br><em>made reliable.</em></h1>
+      <p class="lede">I repair existing Python scripts, connect practical APIs, and turn public or authorized data into clean files—with tests, error handling, and a handover you can actually use.</p>
+      <div class="hero-actions">
+        <a class="button" href="#proof">Inspect the proof</a>
+        <a class="text-link" href="#scope">Check project fit ↘</a>
+        <a class="text-link" href="https://www.upwork.com/freelancers/~01513b7ffc70df4fcc" rel="noopener noreferrer">Contact via Upwork ↗</a>
+      </div>
+      <dl class="signals" aria-label="Service principles">
+        <div><dt>01</dt><dd>Reproduce first</dd></div>
+        <div><dt>02</dt><dd>Fix the cause</dd></div>
+        <div><dt>03</dt><dd>Test the result</dd></div>
+      </dl>
+    </section>
+
+    <section class="services" id="services" aria-labelledby="services-title">
+      <div class="section-label">01 / SERVICES</div>
+      <div class="section-copy">
+        <h2 id="services-title">Defined outcomes, not a vague list of tools.</h2>
+        <div class="service-grid">
+          <article>
+            <span>REPAIR</span>
+            <h3>Python script repair</h3>
+            <p>Reproduce the error, isolate the root cause, correct the implementation, and add focused regression tests.</p>
+          </article>
+          <article>
+            <span>CONNECT</span>
+            <h3>API integration fixes</h3>
+            <p>Authentication, pagination, request/response handling, validation, retries, webhooks, and clean exports.</p>
+          </article>
+          <article>
+            <span>EXTRACT</span>
+            <h3>Public data to CSV</h3>
+            <p>Compliant extraction, normalization, deduplication, exception logging, and repeatable delivery.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="proof" id="proof" aria-labelledby="proof-title">
+      <div class="section-label">02 / WORKING PROOF</div>
+      <div class="section-copy">
+        <h2 id="proof-title">Three demonstrations. Every claim is inspectable.</h2>
+
+        <article class="case-study" id="case-script-repair">
+          <div class="case-number">A</div>
+          <div class="case-main">
+            <p class="case-tag">SCRIPT REPAIR / CSV / REGRESSION TESTS</p>
+            <h3>Sales report stopped by real-world currency formatting.</h3>
+            <p>The original script crashes on <code>$1,250.00</code> and double-counts repeated exports. The repaired version normalizes currency, ignores refunded rows, deduplicates order IDs, logs invalid records, and writes a clean summary.</p>
+            <ul class="evidence-list">
+              <li><strong>Problem</strong><span>Reproducible <code>ValueError</code></span></li>
+              <li><strong>Evidence</strong><span>3 regression tests</span></li>
+              <li><strong>Deliverables</strong><span>Source, summary CSV, exception log</span></li>
+            </ul>
+            <a class="text-link" href="case-script-repair.html">Read the case notes ↗</a>
+          </div>
+        </article>
+
+        <article class="case-study" id="case-api-export">
+          <div class="case-number">B</div>
+          <div class="case-main">
+            <p class="case-tag">REST API / PAGINATION / VALIDATION</p>
+            <h3>Public GitHub issues exported without silent data loss.</h3>
+            <p>A small integration follows paginated responses, supports optional environment-based authentication, filters pull requests, validates required fields, retries transient failures, and exports an auditable CSV.</p>
+            <ul class="evidence-list">
+              <li><strong>Problem</strong><span>Multi-page API handoff</span></li>
+              <li><strong>Evidence</strong><span>4 isolated integration tests</span></li>
+              <li><strong>Deliverables</strong><span>Reusable client, CSV export, setup notes</span></li>
+            </ul>
+            <a class="text-link" href="case-api-export.html">Read the case notes ↗</a>
+          </div>
+        </article>
+
+        <article class="case-study" id="case-catalog-extraction">
+          <div class="case-number">C</div>
+          <div class="case-main">
+            <p class="case-tag">CONTROLLED WEBSITE / CLEANING / DEDUPLICATION</p>
+            <h3>Paginated catalog converted into review-ready CSV files.</h3>
+            <p>A controlled two-page source is crawled safely. The workflow follows pagination, standardizes product data, removes duplicate SKUs, and records malformed items instead of hiding them.</p>
+            <ul class="evidence-list">
+              <li><strong>Problem</strong><span>Duplicates and malformed prices</span></li>
+              <li><strong>Evidence</strong><span>3 end-to-end tests</span></li>
+              <li><strong>Deliverables</strong><span>Catalog CSV, errors CSV, repeatable runner</span></li>
+            </ul>
+            <a class="text-link" href="case-catalog-extraction.html">Read the case notes ↗</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="process" id="process" aria-labelledby="process-title">
+      <div class="section-label">03 / PROCESS</div>
+      <div class="section-copy">
+        <h2 id="process-title">A contained repair process.</h2>
+        <ol>
+          <li><span>01</span><div><h3>Confirm</h3><p>Expected result, current behavior, sample input, environment, and scope boundary.</p></div></li>
+          <li><span>02</span><div><h3>Reproduce</h3><p>Make the failure repeatable before touching the implementation.</p></div></li>
+          <li><span>03</span><div><h3>Repair</h3><p>Correct the narrow cause, add validation, and avoid unnecessary rebuilding.</p></div></li>
+          <li><span>04</span><div><h3>Prove</h3><p>Run the defined flow, document evidence, and deliver clear handover notes.</p></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="scope" id="scope" aria-labelledby="scope-title">
+      <div>
+        <p class="eyebrow">GOOD FIT</p>
+        <h2 id="scope-title">One broken workflow.<br>One clear outcome.</h2>
+      </div>
+      <div class="scope-copy">
+        <p>Best for a small existing script, one API connection, a public-data export, or a file-processing task that can be demonstrated with safe sample data.</p>
+        <p class="boundary">No credential theft, CAPTCHA bypassing, paywall evasion, spam, unauthorized scraping, or fabricated business results.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>MARWAN AHMED · INDEPENDENT PORTFOLIO DEMONSTRATIONS · 2026</p>
+    <p>Synthetic, public, or controlled data only.</p>
+  </footer>
+</body>
+</html>
